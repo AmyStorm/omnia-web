@@ -1,0 +1,1 @@
+<#assign static = "${request.contextPath}/static" >
