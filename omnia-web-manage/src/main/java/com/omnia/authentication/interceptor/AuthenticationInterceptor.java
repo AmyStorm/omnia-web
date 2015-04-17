@@ -29,8 +29,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
             HttpSession session = request.getSession();
             session.getAttribute("login");
         }else{
-            DefaultServletHttpRequestHandler defaultHandler = (DefaultServletHttpRequestHandler) handler;
-            defaultHandler.handleRequest(request, response);
+            //no spring mvc controller handler
+            return false;
         }
 
 

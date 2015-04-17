@@ -29,7 +29,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <mvc:default-servlet-handler />
+    <!--<mvc:default-servlet-handler />-->
 
     <!-- 登陆拦截器 -->
     <mvc:interceptors>
