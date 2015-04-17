@@ -1,4 +1,4 @@
-package com.omnia.interceptor;
+package com.omnia.user.interceptor;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

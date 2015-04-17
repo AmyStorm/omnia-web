@@ -1,4 +1,4 @@
-package com.omnia.filter;
+package com.omnia.common.filter;
 
 import java.io.IOException;
 import java.util.Locale;

@@ -21,7 +21,7 @@
 
     <filter>
         <filter-name>freemarkerFilter</filter-name>
-        <filter-class>com.omnia.filter.FreemarkerFilter</filter-class>
+        <filter-class>FreemarkerFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>freemarkerFilter</filter-name>

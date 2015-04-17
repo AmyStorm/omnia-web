@@ -1,5 +1,6 @@
 package com.omnia.controller;
 
+import com.omnia.user.annotation.Login;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/message")
 public class TestController {
 
+    @Login
     @RequestMapping(value={"/{msg}"}, method=RequestMethod.GET)
     public String showMessage(@PathVariable String msg, HttpServletRequest request, HttpServletResponse response)
     {
