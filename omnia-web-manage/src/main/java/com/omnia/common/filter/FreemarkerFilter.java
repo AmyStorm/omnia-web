@@ -42,7 +42,7 @@ public class FreemarkerFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
-		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(req.getSession().getServletContext());
+		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(req.getServletContext());
 		if(null == ctx){
 			throw new ExceptionInInitializerError("spring context is not loaded!");
 		}
@@ -51,6 +51,7 @@ public class FreemarkerFilter implements Filter {
 			name = name.substring(1, name.lastIndexOf(".dec"));
 			name = name.substring(name.lastIndexOf("/"));
 			FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver) ctx.getBean("templateViewResolver");
+//			req.setAttribute("menu", "TEST-MENU");
 			View view = viewResolver.resolveViewName(name, locale);
 			view.render(null, req, res);
 		} catch (Exception e) {

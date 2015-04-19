@@ -81,7 +81,7 @@
             <li class="active opened active">
                 <a href="layout-variants.html">
                     <i class="linecons-desktop"></i>
-                    <span class="title">Layouts</span>
+                    <span class="title">${menu}</span>
                 </a>
                 <ul>
                     <li class="active">
