@@ -12,7 +12,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.omnia.common.handler.SitemeshTemplateHandler;
+import com.omnia.common.handler.ViewHandler;
+import com.omnia.menu.handler.MenuHandler;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.View;
@@ -24,45 +28,26 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
  */
 public class FreemarkerFilter implements Filter {
 
-	private Locale locale;
-
+	/**
+	 * dynamic adding new handler to handle more view elements.
+	 */
+	private ViewHandler handler = new SitemeshTemplateHandler(new MenuHandler());
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		String localeStr = filterConfig.getInitParameter("locale");
-		if(StringUtils.hasText(localeStr)){
-			locale = new Locale(localeStr);
-		}else {
-			locale = Locale.getDefault();
-		}
+		Assert.notNull(filterConfig, "FilterConfig must not be null");
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest)request;
-		HttpServletResponse res = (HttpServletResponse)response;
-		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(req.getServletContext());
-		if(null == ctx){
-			throw new ExceptionInInitializerError("spring context is not loaded!");
-		}
-		try {
-			String name = req.getRequestURI();
-			name = name.substring(1, name.lastIndexOf(".dec"));
-			name = name.substring(name.lastIndexOf("/"));
-			FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver) ctx.getBean("templateViewResolver");
-//			req.setAttribute("menu", "TEST-MENU");
-			View view = viewResolver.resolveViewName(name, locale);
-			view.render(null, req, res);
-		} catch (Exception e) {
-			throw new ServletException(e);
-		}
+		handler.handle((HttpServletRequest)request,
+				(HttpServletResponse)response);
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		handler = null;
 	}
 	
 }

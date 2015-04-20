@@ -12,6 +12,6 @@ public class MenuHandler implements ViewHandler{
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response) {
-
+        request.setAttribute("menu", "TEST-MENU");
     }
 }
