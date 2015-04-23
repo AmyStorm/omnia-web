@@ -9,69 +9,83 @@ import java.util.List;
  */
 public class MenuElementEntry {
 
+    /**
+     * identifier of this menu element.
+     */
+    private String id;
+
     private String icon;
 
     private String displayName;
 
     private String href;
 
-    private String addon;
+    private String notation;
 
     private List<MenuState> state;
 
     private List<MenuElementEntry> children;
 
-    public MenuElementEntry(String icon, String displayName, String href, String addon, List<MenuState> state, List<MenuElementEntry> children){
+    public MenuElementEntry(String id, String displayName, String icon, String href, String notation, List<MenuState> state, List<MenuElementEntry> children){
+        this.id = id;
         this.icon = icon;
         this.displayName = displayName;
         this.href = href;
-        this.addon = addon;
+        this.notation = notation;
         this.state = state;
         this.children = children;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIcon() {
         return icon;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public String getAddon() {
-        return addon;
-    }
-
-    public List<MenuState> getState() {
-        return state;
-    }
-
-    public List<MenuElementEntry> getChildren() {
-        return children;
-    }
-
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
+    public String getHref() {
+        return href;
+    }
+
     public void setHref(String href) {
         this.href = href;
     }
 
-    public void setAddon(String addon) {
-        this.addon = addon;
+    public String getNotation() {
+        return notation;
+    }
+
+    public void setNotation(String notation) {
+        this.notation = notation;
+    }
+
+    public List<MenuState> getState() {
+        return state;
     }
 
     public void setState(List<MenuState> state) {
         this.state = state;
+    }
+
+    public List<MenuElementEntry> getChildren() {
+        return children;
     }
 
     public void setChildren(List<MenuElementEntry> children) {
@@ -80,7 +94,7 @@ public class MenuElementEntry {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<li class=\"");
         if(state != null && state.contains(MenuState.OPEN)){
             sb.append(" open ");
@@ -94,6 +108,9 @@ public class MenuElementEntry {
             sb.append("   <i class=\"").append(icon).append("\"></i>\n");
         }
         sb.append("   <span class=\"title\">").append(displayName).append("</span>\n");
+        if(StringUtils.isNotBlank(notation)){
+            sb.append(notation).append("\n");
+        }
         sb.append("</a>\n");
         if(null != children && !children.isEmpty()){
             sb.append("<ul>\n");

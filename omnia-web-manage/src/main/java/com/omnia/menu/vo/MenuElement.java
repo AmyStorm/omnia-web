@@ -16,9 +16,23 @@ public class MenuElement {
         this.menuElements = menuElements;
     }
 
+    public MenuElement changeElementState(String id, List<MenuState> states){
+        if(id != null){
+            menuElements.stream().filter(element -> id.equals(element.getId())).forEach(element -> element.setState(states));
+        }
+        return this;
+    }
+
+    public MenuElement addElementNotation(String id, String notationHtml){
+        if(id != null){
+            menuElements.stream().filter(element -> id.equals(element.getId())).forEach(element -> element.setNotation(notationHtml));
+        }
+        return this;
+    }
+
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<ul id=\"main-menu\" class=\"main-menu\">\n");
         for(MenuElementEntry menuElement : menuElements){
             sb.append(menuElement.toString());

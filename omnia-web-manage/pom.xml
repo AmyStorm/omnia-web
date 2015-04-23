@@ -238,6 +238,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.7.0</version>
+        </dependency>
         <!--&lt;!&ndash; SECURITY begin &ndash;&gt;-->
         <!--<dependency>-->
             <!--<groupId>org.apache.shiro</groupId>-->
@@ -266,6 +271,7 @@
             <version>2.4</version>
         </dependency>
         -->
+
     </dependencies>
 
 
