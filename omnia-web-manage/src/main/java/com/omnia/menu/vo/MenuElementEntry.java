@@ -22,11 +22,11 @@ public class MenuElementEntry {
 
     private String notation;
 
-    private List<MenuState> state;
+    private String state;
 
     private List<MenuElementEntry> children;
 
-    public MenuElementEntry(String id, String displayName, String icon, String href, String notation, List<MenuState> state, List<MenuElementEntry> children){
+    public MenuElementEntry(String id, String displayName, String icon, String href, String notation, String state, List<MenuElementEntry> children){
         this.id = id;
         this.icon = icon;
         this.displayName = displayName;
@@ -76,11 +76,11 @@ public class MenuElementEntry {
         this.notation = notation;
     }
 
-    public List<MenuState> getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(List<MenuState> state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -92,43 +92,43 @@ public class MenuElementEntry {
         this.children = children;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<li class=\"");
-        if(state != null && state.contains(MenuState.OPEN)){
-            sb.append(" open ");
-        }
-        if(state != null && state.contains(MenuState.ACTIVE)){
-            sb.append(" active ");
-        }
-        sb.append("\">\n");
-        sb.append("<a href=\"").append(href).append("\">\n");
-        if(StringUtils.isNotBlank(icon)){
-            sb.append("   <i class=\"").append(icon).append("\"></i>\n");
-        }
-        sb.append("   <span class=\"title\">").append(displayName).append("</span>\n");
-        if(StringUtils.isNotBlank(notation)){
-            sb.append(notation).append("\n");
-        }
-        sb.append("</a>\n");
-        if(null != children && !children.isEmpty()){
-            sb.append("<ul>\n");
-            for(MenuElementEntry child : children){
-                sb.append("<li class=\"");
-                if(child.getState() != null && child.getState().contains(MenuState.OPEN)){
-                    sb.append(" open ");
-                }
-                if(child.getState() != null && child.getState().contains(MenuState.ACTIVE)){
-                    sb.append(" active ");
-                }
-                sb.append("\">\n");
-                sb.append(child.toString());
-                sb.append("</li>\n");
-            }
-            sb.append("</ul>\n");
-        }
-        sb.append("</li>\n");
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("<li class=\"");
+//        if(state != null && state.contains(MenuState.OPEN)){
+//            sb.append(" open ");
+//        }
+//        if(state != null && state.contains(MenuState.ACTIVE)){
+//            sb.append(" active ");
+//        }
+//        sb.append("\">\n");
+//        sb.append("<a href=\"").append(href).append("\">\n");
+//        if(StringUtils.isNotBlank(icon)){
+//            sb.append("   <i class=\"").append(icon).append("\"></i>\n");
+//        }
+//        sb.append("   <span class=\"title\">").append(displayName).append("</span>\n");
+//        if(StringUtils.isNotBlank(notation)){
+//            sb.append(notation).append("\n");
+//        }
+//        sb.append("</a>\n");
+//        if(null != children && !children.isEmpty()){
+//            sb.append("<ul>\n");
+//            for(MenuElementEntry child : children){
+//                sb.append("<li class=\"");
+//                if(child.getState() != null && child.getState().contains(MenuState.OPEN)){
+//                    sb.append(" open ");
+//                }
+//                if(child.getState() != null && child.getState().contains(MenuState.ACTIVE)){
+//                    sb.append(" active ");
+//                }
+//                sb.append("\">\n");
+//                sb.append(child.toString());
+//                sb.append("</li>\n");
+//            }
+//            sb.append("</ul>\n");
+//        }
+//        sb.append("</li>\n");
+//        return sb.toString();
+//    }
 }

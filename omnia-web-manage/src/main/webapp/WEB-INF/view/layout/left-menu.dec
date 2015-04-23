@@ -7,7 +7,27 @@
 
 
     <#include "left-top.dec">
-    ${menu}
+    <ul id="main-menu" class="main-menu">
+        <#list menuList as element>
+            <li id="${element.id}" class="${element.state}">
+                <a href="${element.href}">
+                    <i class="${element.icon}"></i>
+                    <span class="title">${element.displayName}</span>
+                </a>
+                <#if (element.children?? && element.children?size > 0) >
+                    <ul>
+                        <#list element.children as child>
+                            <li  id="${child.id}" class="${child.state}">
+                                <a href="${child.href}">
+                                    <span class="title">${child.displayName}</span>
+                                </a>
+                            </li>
+                        </#list>
+                    </ul>
+                </#if>
+            </li>
+        </#list>
+    </ul>
         <#--<ul id="main-menu" class="main-menu">-->
             <#--<!-- add class "multiple-expanded" to allow multiple submenus to open &ndash;&gt;-->
             <#--<!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" &ndash;&gt;-->

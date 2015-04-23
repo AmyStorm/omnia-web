@@ -13,29 +13,24 @@ import java.util.List;
  * Created by khaerothe on 2015/4/23.
  */
 public class MenuData {
-    private MenuElement instance = null;
+    private static final List<MenuElementEntry> MENU_ELEMENTS = ImmutableList.of(
+            new MenuElementEntry("article", "EXAMPLE1", "linecons-cog", "abc", null, MenuState.NORMAL.toString(), null),
+            new MenuElementEntry("user", "EXAMPLE2", "linecons-desktop", "bbb", null, MenuState.NORMAL.toString(), null),
+            new MenuElementEntry("management", "EXAMPLE3", "linecons-note", "ccc", null, MenuState.NORMAL.toString(), null),
+            new MenuElementEntry("menu", "EXAMPLE4", "linecons-star", "ddd", null, MenuState.NORMAL.toString() + " " + MenuState.OPEN.toString(),
+                    ImmutableList.of(new MenuElementEntry("menuChild1", "EXAMPLE5", "linecons-params", "eee", null, MenuState.NORMAL.toString(), null))));
 
-    public MenuData(String selectId){
-        MenuElementEntry example1 = new MenuElementEntry("article", "EXAMPLE1", "linecons-cog", "abc", null, ImmutableList.of(MenuState.NORMAL), null);
-        MenuElementEntry example2 = new MenuElementEntry("user", "EXAMPLE2", "linecons-desktop", "bbb", null, ImmutableList.of(MenuState.NORMAL), null);
-        MenuElementEntry example3 = new MenuElementEntry("management", "EXAMPLE3", "linecons-note", "ccc", null, ImmutableList.of(MenuState.NORMAL), null);
+    private static final MenuElement MENU_INSTANCE = new MenuElement(MENU_ELEMENTS);
 
-        MenuElementEntry example5 = new MenuElementEntry("menuChild1", "EXAMPLE5", "linecons-params", "eee", null, ImmutableList.of(MenuState.NORMAL), null);
+    private MenuData(){
 
-        MenuElementEntry example4 = new MenuElementEntry("menu", "EXAMPLE4", "linecons-star", "ddd", null, ImmutableList.of(MenuState.NORMAL), ImmutableList.of(example5));
-
-        List<MenuElementEntry> elements = new ArrayList<>();
-        elements.add(example1);
-        elements.add(example2);
-        elements.add(example3);
-        elements.add(example4);
-
-        elements.stream().filter(element -> selectId.equals(element.getId())).forEach(element -> element.setState(ImmutableList.of(MenuState.ACTIVE)));
-
-        instance = new MenuElement(elements);
     }
-    public String genHtml(){
-        return instance.toString();
+    public static String genHtml(String selectId, Boolean isOpened){
+//        MENU_ELEMENTS.stream().filter(element -> selectId.equals(element.getId())).forEach(element -> element.setState(ImmutableList.of(MenuState.ACTIVE)));
+        MENU_ELEMENTS.stream().filter(
+                menuElementEntry -> menuElementEntry.getId().equals(selectId)).forEach(
+                menuElementEntry -> menuElementEntry.setState(isOpened == null || isOpened ? MenuState.NORMAL.toString() : MenuState.ACTIVE.toString() + " " + MenuState.OPEN.toString()));
+        return MENU_INSTANCE.toString();
 //        instance.changeElementState(id, ImmutableList.of(MenuState.ACTIVE));
     }
 
