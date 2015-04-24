@@ -1,10 +1,8 @@
 package com.omnia.menu.handler;
 
 
-import com.google.common.collect.ImmutableList;
 import com.omnia.common.handler.ViewHandler;
 import com.omnia.menu.vo.MenuElementEntry;
-import com.omnia.menu.vo.MenuState;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,7 +44,7 @@ public class MenuHandler implements ViewHandler {
             }else{
                 if(element.getId().equals(exp)){
                     if(father != null){
-                        father.setState("open active");
+                        father.setState("opened active");
                     }
                     element.setState("active");
                     return element;
