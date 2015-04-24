@@ -16,20 +16,45 @@ import java.util.List;
  */
 public class MenuHandler implements ViewHandler {
 
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response) {
         //TODO generate module mark
-        String module = request.getParameter("real");
+        String module = request.getParameter("menu");
+        System.out.println(module);
         List<MenuElementEntry> menuList = new ArrayList<>();
         List<MenuElementEntry> childList = new ArrayList<>();
-        childList.add(new MenuElementEntry("menuChild1", "EXAMPLE5", "linecons-params", "eee", null, MenuState.NORMAL.toString(), null));
-        menuList.add(new MenuElementEntry("article", "EXAMPLE1", "linecons-cog", "abc", null, MenuState.NORMAL.toString(), null));
-        menuList.add(new MenuElementEntry("user", "EXAMPLE2", "linecons-desktop", "bbb", null, MenuState.NORMAL.toString(), null));
-        menuList.add(new MenuElementEntry("management", "EXAMPLE3", "linecons-note", "ccc", null, MenuState.NORMAL.toString(), null));
-        menuList.add(new MenuElementEntry("menu", "EXAMPLE4", "linecons-star", "ddd", null, MenuState.NORMAL.toString() + " " + MenuState.OPEN.toString(),childList));
+        childList.add(new MenuElementEntry("menuChild1", "EXAMPLE5", "linecons-params", "eee", null, "", null));
+        menuList.add(new MenuElementEntry("article", "EXAMPLE1", "linecons-cog", "abc", null, "", null));
+        menuList.add(new MenuElementEntry("user", "EXAMPLE2", "linecons-desktop", "bbb", null, "", null));
+        menuList.add(new MenuElementEntry("management", "EXAMPLE3", "linecons-note", "ccc", null, "", null));
+        menuList.add(new MenuElementEntry("menu", "EXAMPLE4", "linecons-star", "ddd", null, "", childList));
 
-        menuList.stream().filter(menuElementEntry -> menuElementEntry.getId().equals(module)).forEach(menu ->
-                menu.setState("active"));
+        MenuElementEntry entry = getMenuELement(null, menuList, module);
+        assert entry != null;
+
+
+        System.out.println(entry);
         request.setAttribute("menuList", menuList);
+    }
+
+    public MenuElementEntry getMenuELement(MenuElementEntry father, List<MenuElementEntry> elements, String exp){
+
+        for(MenuElementEntry element : elements){
+            if(element.getChildren() != null && element.getChildren().size() > 0){
+                return getMenuELement(element, element.getChildren(), exp);
+            }else{
+                if(element.getId().equals(exp)){
+                    if(father != null){
+                        father.setState("open active");
+                    }
+                    element.setState("active");
+                    return element;
+                }else{
+                    continue;
+                }
+            }
+        }
+        return null;
     }
 }

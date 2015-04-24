@@ -1,6 +1,7 @@
 <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
 <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
 <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+
 <div class="sidebar-menu toggle-others fixed">
 
     <div class="sidebar-menu-inner">
@@ -10,7 +11,7 @@
     <ul id="main-menu" class="main-menu">
         <#list menuList as element>
             <li id="${element.id}" class="${element.state}">
-                <a href="${element.href}">
+                <a href="${element.href}?menu=${element.id}">
                     <i class="${element.icon}"></i>
                     <span class="title">${element.displayName}</span>
                 </a>
@@ -18,7 +19,7 @@
                     <ul>
                         <#list element.children as child>
                             <li  id="${child.id}" class="${child.state}">
-                                <a href="${child.href}">
+                                <a href="${child.href}?menu=${child.id}" >
                                     <span class="title">${child.displayName}</span>
                                 </a>
                             </li>
