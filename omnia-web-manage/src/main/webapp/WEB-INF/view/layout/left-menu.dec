@@ -1,6 +1,19 @@
 <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
 <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
 <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+<script type="text/javascript">
+    $(function(){
+        $('#main-menu').find('li a').each(function(){
+            var current = window.location.href;
+            var href = $(this).attr("href");
+            if(current.indexOf(href) != -1){
+                var $li = $(this).parent("li");
+                $li.addClass("active");
+                $li.parent().parent().addClass("opened active");
+            }
+        });
+    });
+</script>
 
 <div class="sidebar-menu toggle-others fixed">
 
@@ -9,17 +22,17 @@
 
     <#include "left-top.dec">
     <ul id="main-menu" class="main-menu">
-        <#list menuList as element>
-            <li id="${element.id}" class="${element.state}">
-                <a href="${element.href}?menu=${element.id}">
+        <#list menuElement.menuElements as element>
+            <li id="${element.id}">
+                <a href="${element.href}">
                     <i class="${element.icon}"></i>
                     <span class="title">${element.displayName}</span>
                 </a>
                 <#if (element.children?? && element.children?size > 0) >
                     <ul>
                         <#list element.children as child>
-                            <li  id="${child.id}" class="${child.state}">
-                                <a href="${child.href}?menu=${child.id}" >
+                            <li  id="${child.id}">
+                                <a href="${child.href}" >
                                     <span class="title">${child.displayName}</span>
                                 </a>
                             </li>

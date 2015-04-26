@@ -26,13 +26,11 @@ public class MenuElementEntry {
 
     private List<MenuElementEntry> children;
 
-    public MenuElementEntry(String id, String displayName, String icon, String href, String notation, String state, List<MenuElementEntry> children){
+    public MenuElementEntry(String id, String displayName, String icon, String href, List<MenuElementEntry> children){
         this.id = id;
         this.icon = icon;
         this.displayName = displayName;
         this.href = href;
-        this.notation = notation;
-        this.state = state;
         this.children = children;
     }
 
@@ -116,10 +114,10 @@ public class MenuElementEntry {
 //            sb.append("<ul>\n");
 //            for(MenuElementEntry child : children){
 //                sb.append("<li class=\"");
-//                if(child.getState() != null && child.getState().contains(MenuState.OPEN)){
+//                if(child.getState() != null && child.getState().contains("open")){
 //                    sb.append(" open ");
 //                }
-//                if(child.getState() != null && child.getState().contains(MenuState.ACTIVE)){
+//                if(child.getState() != null && child.getState().contains("active")){
 //                    sb.append(" active ");
 //                }
 //                sb.append("\">\n");

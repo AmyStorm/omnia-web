@@ -16,6 +16,10 @@ public class MenuElement {
         this.menuElements = menuElements;
     }
 
+    public List<MenuElementEntry> getMenuElements() {
+        return menuElements;
+    }
+
     public MenuElement changeElementState(String id, String states){
         if(id != null){
             menuElements.stream().filter(element -> id.equals(element.getId())).forEach(element -> element.setState(states));
