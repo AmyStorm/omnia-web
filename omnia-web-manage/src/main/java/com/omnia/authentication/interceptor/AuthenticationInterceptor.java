@@ -1,6 +1,9 @@
 package com.omnia.authentication.interceptor;
 
+import com.omnia.authentication.vo.LoginSession;
 import com.omnia.user.annotation.Login;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -16,10 +19,10 @@ import java.lang.annotation.Annotation;
  */
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 
+    private static final Log LOG = LogFactory.getLog(AuthenticationInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("preHandle request invoke--------Login");
-        System.out.println(handler.getClass().getName());
+        LOG.info("Login Authentication: ");
         if(handler instanceof HandlerMethod){
             HandlerMethod method = (HandlerMethod) handler;
             Annotation loginAnnotation = method.getMethodAnnotation(Login.class);
@@ -27,7 +30,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
                 return super.preHandle(request, response, handler);
             }
             HttpSession session = request.getSession();
-            session.getAttribute("login");
+            LoginSession user = (LoginSession) session.getAttribute("user");
+            if(user != null){
+                // login success
+            }else{
+                // no login
+            }
         }else{
             //no spring mvc controller handler
             return false;
