@@ -21,32 +21,4 @@ public class MenuHandler implements ViewHandler {
         MenuElement element = MenuData.genMenuElements();
         request.setAttribute("menuElement", element);
     }
-
-    /**
-     * change the element state
-     * @param father
-     * @param elements
-     * @param exp
-     * @return
-     */
-    @Deprecated
-    public MenuElementEntry getMenuELement(MenuElementEntry father, List<MenuElementEntry> elements, String exp){
-
-        for(MenuElementEntry element : elements){
-            if(element.getChildren() != null && element.getChildren().size() > 0){
-                return getMenuELement(element, element.getChildren(), exp);
-            }else{
-                if(element.getId().equals(exp)){
-                    if(father != null){
-                        father.setState("opened active");
-                    }
-                    element.setState("active");
-                    return element;
-                }else{
-                    continue;
-                }
-            }
-        }
-        return null;
-    }
 }

@@ -20,19 +20,6 @@ public class MenuElement {
         return menuElements;
     }
 
-    public MenuElement changeElementState(String id, String states){
-        if(id != null){
-            menuElements.stream().filter(element -> id.equals(element.getId())).forEach(element -> element.setState(states));
-        }
-        return this;
-    }
-
-    public MenuElement addElementNotation(String id, String notationHtml){
-        if(id != null){
-            menuElements.stream().filter(element -> id.equals(element.getId())).forEach(element -> element.setNotation(notationHtml));
-        }
-        return this;
-    }
 
     @Override
     public String toString() {

@@ -1,4 +1,4 @@
-package com.omnia.common.es;
+package com.omnia.common.command;
 
 import java.util.UUID;
 
