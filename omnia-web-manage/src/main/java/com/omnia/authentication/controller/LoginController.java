@@ -22,7 +22,7 @@ public class LoginController {
     public String loginPage(HttpServletRequest request, HttpServletResponse response){
         LoginSession loginSession = (LoginSession) request.getSession().getAttribute("loginSession");
         if(loginSession != null){
-            return "redirect:/message/222";
+            return "redirect:/index";
         }else{
             return "login/login";
         }

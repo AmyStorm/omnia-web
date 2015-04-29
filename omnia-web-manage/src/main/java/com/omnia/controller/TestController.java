@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by khaerothe on 2015/4/1.
  */
 @Controller
-@RequestMapping("/message")
+@RequestMapping("/")
 public class TestController {
 
     @Login
@@ -22,6 +22,14 @@ public class TestController {
     {
         System.out.println("1111111111");
         request.setAttribute("message", msg);
+        return "index";
+    }
+
+    @Login
+    @RequestMapping(value={"index"}, method=RequestMethod.GET)
+    public String index(HttpServletRequest request, HttpServletResponse response)
+    {
+        System.out.println("index");
         return "index";
     }
 }

@@ -3,9 +3,6 @@ package com.omnia.menu.data;
 import com.google.common.collect.ImmutableList;
 import com.omnia.menu.vo.MenuElement;
 import com.omnia.menu.vo.MenuElementEntry;
-import com.omnia.menu.vo.MenuState;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

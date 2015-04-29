@@ -77,7 +77,7 @@
 
                                             // Redirect after successful login page (when progress bar reaches 100%)
                                             if (resp.success) {
-                                                window.location.href = 'message/2222';
+                                                window.location.href = 'index';
                                             }
                                             else {
                                                 toastr.error("You have entered wrong password, please try again. User and password is <strong>demo/demo</strong> :)", "Invalid Login!", opts);

@@ -40,7 +40,7 @@ public class EventStoreImpl implements EventStore {
 
     private final ActorSystem system;
     final Settings settings = new SettingsBuilder()
-            .address(new InetSocketAddress("127.0.0.1", 2113))
+            .address(new InetSocketAddress("127.0.0.1", 1113))
             .build();
     private final String streamPrefix;
     private final ActorRef connectionActor;
