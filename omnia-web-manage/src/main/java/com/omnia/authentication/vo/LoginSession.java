@@ -14,6 +14,10 @@ public final class LoginSession {
         this.id = user.getId();
         this.name = user.getName();
     }
+    public LoginSession(String id, String name){
+        this.id = id;
+        this.name = name;
+    }
 
     public String getId() {
         return id;

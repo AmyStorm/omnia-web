@@ -1,4 +1,4 @@
-<#include "header.dec">
+<#include "${base}/include/header.dec">
 <!DOCTYPE html>
 <html>
     <head>

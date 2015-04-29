@@ -1,4 +1,4 @@
-package com.omnia.authentication.interceptor;
+package com.omnia.user.interceptor;
 
 import com.omnia.authentication.vo.LoginSession;
 import com.omnia.user.annotation.Login;
@@ -7,7 +7,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     private static final Log LOG = LogFactory.getLog(AuthenticationInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        LOG.info("Login Authentication: ");
+        LOG.info("Login Authentication, path: " + request.getRequestURI());
         if(handler instanceof HandlerMethod){
             HandlerMethod method = (HandlerMethod) handler;
             Annotation loginAnnotation = method.getMethodAnnotation(Login.class);
@@ -30,24 +29,19 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
                 return super.preHandle(request, response, handler);
             }
             HttpSession session = request.getSession();
-            LoginSession user = (LoginSession) session.getAttribute("user");
+            LoginSession user = (LoginSession) session.getAttribute("loginSession");
             if(user != null){
                 // login success
+                return super.preHandle(request, response, handler);
             }else{
                 // no login
+                response.sendRedirect(request.getContextPath() + "/login");
+                return false;
             }
         }else{
             //no spring mvc controller handler
             return false;
         }
-
-
-//        Object session = request.getSession().getAttribute("login");
-//        if(session == null){
-//            return false;
-//        }else{
-        return super.preHandle(request, response, handler);
-//        }
 
     }
 

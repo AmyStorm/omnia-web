@@ -33,7 +33,7 @@
 
     <!-- 登陆拦截器 -->
     <mvc:interceptors>
-        <bean class="com.omnia.authentication.interceptor.AuthenticationInterceptor" />
+        <bean class="com.omnia.user.interceptor.AuthenticationInterceptor" />
     </mvc:interceptors>
 
     <!-- freemarker的配置 -->

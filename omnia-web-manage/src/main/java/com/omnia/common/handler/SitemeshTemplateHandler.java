@@ -44,7 +44,7 @@ public class SitemeshTemplateHandler implements ViewHandler {
         try {
             String name = request.getRequestURI();
             name = name.substring(1, name.lastIndexOf(".dec"));
-            name = name.substring(name.lastIndexOf("/"));
+            name = name.substring(name.lastIndexOf("/", name.lastIndexOf("/") - 1));
             FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver) ctx.getBean("templateViewResolver");
             View view = viewResolver.resolveViewName(name, locale);
             view.render(null, request, response);

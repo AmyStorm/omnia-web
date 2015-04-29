@@ -1,8 +1,9 @@
-package com.omnia.common.es;
+package com.omnia.common.es.impl;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import com.omnia.common.es.EventStore;
 import com.omnia.common.es.dataformat.EventStream;
 import com.omnia.common.es.dataformat.impl.ListEventStream;
 import com.omnia.common.event.Event;

@@ -4,5 +4,9 @@
         <tag-rule-bundle class="org.sitemesh.content.tagrules.html.DivExtractingTagRuleBundle" />
     </content-processor>
 
+    <mapping path="/login*" decorator="/WEB-INF/view/clean/layout.dec" />
+
     <mapping path="/*" decorator="/WEB-INF/view/layout/layout.dec"/>
+
+
 </sitemesh>
