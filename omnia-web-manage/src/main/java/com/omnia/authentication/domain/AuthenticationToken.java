@@ -1,7 +1,11 @@
 package com.omnia.authentication.domain;
 
+import com.google.common.collect.ImmutableList;
 import com.omnia.authentication.domain.event.LoginFailedEvent;
 import com.omnia.authentication.domain.event.LoginSuccessEvent;
+import com.omnia.common.es.EventStore;
+import com.omnia.common.es.dataformat.EventStream;
+import com.omnia.common.es.impl.EventStoreImpl;
 
 import java.util.Date;
 import java.util.UUID;
@@ -18,6 +22,8 @@ public class AuthenticationToken {
     private String password;
 
     private Date lastLogin;
+
+    private EventStore eventStore = new EventStoreImpl(this.getClass().getSimpleName());
     private boolean isLogin = false;
 
 
@@ -47,6 +53,8 @@ public class AuthenticationToken {
         this.userName = event.getUserName();
         this.lastLogin = event.getLoginTime();
         this.isLogin = true;
+        EventStream<Long> eventStream = eventStore.loadEventStream(this.userId);
+        eventStore.store(this.userId, eventStream.version(), ImmutableList.of(event));
     }
 
     public void handle(LoginFailedEvent event){
@@ -54,9 +62,12 @@ public class AuthenticationToken {
         this.userName = event.getUserName();
         this.lastLogin = event.getLoginTime();
         this.isLogin = false;
+        EventStream<Long> eventStream = eventStore.loadEventStream(this.userId);
+        eventStore.store(this.userId, eventStream.version(), ImmutableList.of(event));
     }
 
     public String getId(){
         return this.userId.toString();
     }
+
 }

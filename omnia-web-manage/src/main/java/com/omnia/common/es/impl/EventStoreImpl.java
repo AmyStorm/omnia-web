@@ -1,18 +1,16 @@
 package com.omnia.common.es.impl;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
+import akka.actor.*;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import com.omnia.common.es.EventStore;
 import com.omnia.common.es.dataformat.EventStream;
 import com.omnia.common.es.dataformat.impl.ListEventStream;
 import com.omnia.common.event.Event;
 import com.omnia.common.util.JsonUtil;
 import eventstore.*;
+import eventstore.j.*;
 import eventstore.j.EsConnection;
-import eventstore.j.EsConnectionFactory;
-import eventstore.j.EventDataBuilder;
-import eventstore.j.WriteEventsBuilder;
 import eventstore.tcp.ConnectionActor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +20,7 @@ import scala.concurrent.duration.Duration;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +39,9 @@ public class EventStoreImpl implements EventStore {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
     private final ActorSystem system;
+    final Settings settings = new SettingsBuilder()
+            .address(new InetSocketAddress("127.0.0.1", 2113))
+            .build();
     private final String streamPrefix;
     private final ActorRef connectionActor;
     private final ActorRef writeResult;
@@ -48,7 +50,7 @@ public class EventStoreImpl implements EventStore {
     public EventStoreImpl(String streamPrefix) {
         this.streamPrefix = streamPrefix;
         this.system = ActorSystem.create();
-        this.connectionActor = system.actorOf(ConnectionActor.getProps());
+        this.connectionActor = system.actorOf(ConnectionActor.getProps(settings));
         this.writeResult = system.actorOf(Props.create(WriteResult.class));
         this.connection = EsConnectionFactory.create(system);
     }
@@ -127,5 +129,23 @@ public class EventStoreImpl implements EventStore {
         Class<? extends Event> type = (Class<? extends Event>) Class.forName(event.data().eventType());
         String json = new String(event.data().data().value().toArray(), UTF8);
         return JsonUtil.parseObjectFromJson(json, type);
+    }
+
+    public static class WriteResult extends UntypedActor {
+        final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+        @Override
+        public void onReceive(Object message) throws Exception {
+            if (message instanceof WriteEventsCompleted) {
+                final WriteEventsCompleted completed = (WriteEventsCompleted) message;
+                log.info("range: {}, position: {}", completed.numbersRange(), completed.position());
+            } else if (message instanceof Status.Failure) {
+                final Status.Failure failure = ((Status.Failure) message);
+                final EsException exception = (EsException) failure.cause();
+                log.error(exception, exception.toString());
+            } else {
+                unhandled(message);
+            }
+        }
     }
 }
