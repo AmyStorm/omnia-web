@@ -1,5 +1,6 @@
 package com.omnia.common.handler;
 
+import com.omnia.common.util.SpringBeanUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -37,19 +38,20 @@ public class SitemeshTemplateHandler implements ViewHandler {
 
         Locale locale = RequestContextUtils.getLocaleResolver(request).resolveLocale(request);
 
-        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-        if (null == ctx) {
-            throw new ExceptionInInitializerError("spring context is not loaded!");
-        }
+//        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+//        if (null == ctx) {
+//            throw new ExceptionInInitializerError("spring context is not loaded!");
+//        }
         try {
             String name = request.getRequestURI();
             name = name.substring(1, name.lastIndexOf(".dec"));
             name = name.substring(name.lastIndexOf("/", name.lastIndexOf("/") - 1));
-            FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver) ctx.getBean("templateViewResolver");
+            ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+            FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver) context.getBean("templateViewResolver");
             View view = viewResolver.resolveViewName(name, locale);
             view.render(null, request, response);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("error in sitemesh template handle.", e);
         }
     }
 }
