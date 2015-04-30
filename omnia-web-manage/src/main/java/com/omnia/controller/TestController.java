@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  * Created by khaerothe on 2015/4/1.
  */
 @Controller
-@RequestMapping("/")
 public class TestController {
 
     @Login

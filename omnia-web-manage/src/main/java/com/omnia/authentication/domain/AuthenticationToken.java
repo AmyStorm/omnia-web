@@ -24,6 +24,7 @@ public class AuthenticationToken {
     private Date lastLogin;
 
     private EventStore eventStore = new EventStoreImpl(this.getClass().getSimpleName());
+
     private boolean isLogin = false;
 
 

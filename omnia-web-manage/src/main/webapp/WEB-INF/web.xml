@@ -11,7 +11,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:context.xml, classpath:mvc.xml</param-value>
+        <param-value>classpath:context.xml</param-value>
     </context-param>
 
     <filter>
@@ -52,7 +52,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
+    <listener>
+        <listener-class>com.omnia.common.listener.AkkaListener</listener-class>
+    </listener>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

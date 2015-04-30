@@ -1,16 +1,26 @@
 package com.omnia.common.es.impl;
 
-import akka.actor.*;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
 import com.omnia.common.es.EventStore;
+import com.omnia.common.es.actor.WriteResult;
 import com.omnia.common.es.dataformat.EventStream;
 import com.omnia.common.es.dataformat.impl.ListEventStream;
 import com.omnia.common.event.Event;
 import com.omnia.common.util.JsonUtil;
-import eventstore.*;
-import eventstore.j.*;
+import com.omnia.common.util.SpringBeanUtil;
+import eventstore.EventData;
+import eventstore.IndexedEvent;
+import eventstore.ReadStreamEventsCompleted;
+import eventstore.Settings;
+import eventstore.StreamNotFoundException;
+import eventstore.SubscriptionObserver;
 import eventstore.j.EsConnection;
+import eventstore.j.EsConnectionFactory;
+import eventstore.j.EventDataBuilder;
+import eventstore.j.SettingsBuilder;
+import eventstore.j.WriteEventsBuilder;
 import eventstore.tcp.ConnectionActor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,6 +28,7 @@ import rx.Observable;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 
+import javax.annotation.PostConstruct;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,22 +49,26 @@ public class EventStoreImpl implements EventStore {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    private final ActorSystem system;
-    final Settings settings = new SettingsBuilder()
+    private final Settings settings = new SettingsBuilder()
             .address(new InetSocketAddress("127.0.0.1", 1113))
             .build();
     private final String streamPrefix;
-    private final ActorRef connectionActor;
-    private final ActorRef writeResult;
-    private final EsConnection connection;
+    private ActorRef connectionActor;
+    private ActorRef writeResult;
+    private EsConnection connection;
 
     public EventStoreImpl(String streamPrefix) {
         this.streamPrefix = streamPrefix;
-        this.system = ActorSystem.create();
+    }
+
+    @PostConstruct
+    public void init(){
+        ActorSystem system = (ActorSystem) SpringBeanUtil.getBean("actorSystem");
         this.connectionActor = system.actorOf(ConnectionActor.getProps(settings));
         this.writeResult = system.actorOf(Props.create(WriteResult.class));
         this.connection = EsConnectionFactory.create(system);
     }
+
     @Override
     public EventStream<Long> loadEventStream(UUID aggregateId) {
         final Future<ReadStreamEventsCompleted> future = connection.readStreamEventsForward(streamPrefix + aggregateId, null, 1000, false, null);
@@ -131,21 +146,4 @@ public class EventStoreImpl implements EventStore {
         return JsonUtil.parseObjectFromJson(json, type);
     }
 
-    public static class WriteResult extends UntypedActor {
-        final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-
-        @Override
-        public void onReceive(Object message) throws Exception {
-            if (message instanceof WriteEventsCompleted) {
-                final WriteEventsCompleted completed = (WriteEventsCompleted) message;
-                log.info("range: {}, position: {}", completed.numbersRange(), completed.position());
-            } else if (message instanceof Status.Failure) {
-                final Status.Failure failure = ((Status.Failure) message);
-                final EsException exception = (EsException) failure.cause();
-                log.error(exception, exception.toString());
-            } else {
-                unhandled(message);
-            }
-        }
-    }
 }

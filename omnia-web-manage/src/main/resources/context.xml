@@ -12,4 +12,6 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <bean id="actorSystem" class="akka.actor.ActorSystem" factory-method="create" destroy-method="shutdown" >
+    </bean>
 </beans>
