@@ -6,6 +6,8 @@ import com.omnia.authentication.domain.event.LoginSuccessEvent;
 import com.omnia.common.es.EventStore;
 import com.omnia.common.es.dataformat.EventStream;
 import com.omnia.common.es.impl.EventStoreImpl;
+import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
+import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
 
 import java.util.Date;
 import java.util.UUID;
@@ -14,7 +16,11 @@ import java.util.UUID;
  *
  * Created by khaerothe on 2015/4/29.
  */
-public class AuthenticationToken {
+public class AuthenticationToken extends AbstractAnnotatedAggregateRoot {
+
+    private static final long serialVersionUID = -6784252654837469915L;
+
+    @AggregateIdentifier
     private UUID userId;
 
     private String userName;
@@ -28,16 +34,15 @@ public class AuthenticationToken {
     private boolean isLogin = false;
 
 
-    public AuthenticationToken(){
+    AuthenticationToken(){
 
     }
 
-    public AuthenticationToken build(UUID userId, String userName, String password, Date lastLogin){
+    public AuthenticationToken (UUID userId, String userName, String password, Date lastLogin){
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.lastLogin = lastLogin;
-        return this;
     }
 
     public boolean authentication(String username, String password){

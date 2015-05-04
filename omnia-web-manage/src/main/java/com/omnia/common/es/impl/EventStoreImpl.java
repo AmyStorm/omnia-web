@@ -59,6 +59,11 @@ public class EventStoreImpl implements EventStore {
 
     public EventStoreImpl(String streamPrefix) {
         this.streamPrefix = streamPrefix;
+
+    }
+
+    @PostConstruct
+    public void init(){
         ActorSystem system = (ActorSystem) SpringBeanUtil.getBean("actorSystem");
         this.connectionActor = system.actorOf(ConnectionActor.getProps(settings));
         this.writeResult = system.actorOf(Props.create(WriteResult.class));

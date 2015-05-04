@@ -290,13 +290,11 @@
             <!--<artifactId>shiro-cas</artifactId>-->
             <!--<version>${shiro.version}</version>-->
         <!--</dependency>-->
-        <!--
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-core</artifactId>
             <version>2.4</version>
         </dependency>
-        -->
 
     </dependencies>
 

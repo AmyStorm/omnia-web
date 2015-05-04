@@ -12,11 +12,11 @@ public class UserRepository {
     private final Map<String, AuthenticationToken> inMemoryUser = new HashMap<>();
 
     public UserRepository(){
-        AuthenticationToken user1 = new AuthenticationToken();
+
         Calendar c = Calendar.getInstance();
         c.set(1989, Calendar.MARCH, 25);
         UUID id = UUID.randomUUID();
-        user1.build(id, "zhangsan", "zhangsan", c.getTime());
+        AuthenticationToken user1 = new AuthenticationToken(id, "zhangsan", "zhangsan", c.getTime());
         this.inMemoryUser.put(id.toString(), user1);
     }
     public AuthenticationToken authentication(String name, String password){
