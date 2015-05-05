@@ -9,7 +9,8 @@ import com.omnia.authentication.vo.LoginSession;
  */
 public class LoginService {
 
-    private UserRepository repository = new UserRepository();
+    private UserRepository repository = null;
+//    private UserRepository repository = new UserRepository();
 
     public LoginSession login(String userName, String password){
         AuthenticationToken token = repository.authentication(userName, password);

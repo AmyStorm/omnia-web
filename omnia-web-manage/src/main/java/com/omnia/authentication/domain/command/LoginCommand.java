@@ -1,27 +1,25 @@
 package com.omnia.authentication.domain.command;
 
-import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier;
 
 /**
  * Created by Administrator on 2015/5/4.
  */
 public final class LoginCommand {
 
-    @TargetAggregateIdentifier
-    private final String id;
+    private String username;
 
-    private final String description;
+    private String password;
 
-    public LoginCommand(String id, String description) {
-        this.id = id;
-        this.description = description;
+    public LoginCommand(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
-    public String getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPassword() {
+        return password;
     }
 }

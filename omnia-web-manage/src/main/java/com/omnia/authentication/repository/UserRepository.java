@@ -1,12 +1,14 @@
 package com.omnia.authentication.repository;
 
 import com.omnia.authentication.domain.AuthenticationToken;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
  * Created by khaerothe on 2015/4/29.
  */
+@Repository
 public class UserRepository {
 
     private final Map<String, AuthenticationToken> inMemoryUser = new HashMap<>();
