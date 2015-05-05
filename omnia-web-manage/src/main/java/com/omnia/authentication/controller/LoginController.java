@@ -1,7 +1,7 @@
 package com.omnia.authentication.controller;
 
-import com.omnia.authentication.domain.AuthenticationToken;
 import com.omnia.authentication.domain.command.LoginCommand;
+import com.omnia.authentication.domain.command.LogoutCommand;
 import com.omnia.authentication.vo.LoginSession;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;
@@ -25,6 +25,8 @@ import java.util.concurrent.ExecutionException;
 @Controller
 public class LoginController {
 
+    private static final String LOGIN_SESSION_NAME = "loginSession";
+
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
@@ -36,6 +38,7 @@ public class LoginController {
     public String loginPage(HttpServletRequest request, HttpServletResponse response){
         LoginSession loginSession = (LoginSession) request.getSession().getAttribute("loginSession");
         if(loginSession != null){
+            //TODO when logging on, redirect a url;
             return "redirect:/index";
         }else{
             return "login/login";
@@ -45,22 +48,31 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String loginProcess(HttpSession session, LoginCommand loginCommand){
-
-        FutureCallback<AuthenticationToken> callback = new FutureCallback<>();
+    public String loginProcess(HttpSession session, String username, String password){
+        LoginCommand loginCommand = new LoginCommand(username, password);
+        FutureCallback<LoginSession> callback = new FutureCallback<>();
         commandBus.dispatch(new GenericCommandMessage<>(loginCommand), callback);
 
-        AuthenticationToken user = null;
+        LoginSession loginSession = null;
         try {
-            user = callback.get();
+            loginSession = callback.get();
         } catch (InterruptedException | ExecutionException e) {
             LOG.error("error call of login command", e);
         }
-        if(user != null){
-            session.setAttribute("loginSession", user);
+        if(loginSession != null){
+            session.setAttribute(LOGIN_SESSION_NAME, loginSession);
             return "{\"success\" : true}";
         }else{
             return "{\"success\" : true}";
         }
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutProcess(HttpSession session){
+        LogoutCommand logoutCommand = new LogoutCommand();
+
+        commandBus.dispatch(new GenericCommandMessage<>(logoutCommand));
+        session.removeAttribute(LOGIN_SESSION_NAME);
+        return "redirect:/login";
     }
 }

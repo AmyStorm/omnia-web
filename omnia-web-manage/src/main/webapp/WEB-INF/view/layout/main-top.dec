@@ -304,7 +304,7 @@
                     </a>
                 </li>
                 <li class="last">
-                    <a href="extra-lockscreen.html">
+                    <a id="logout" href="logout" >
                         <i class="fa-lock"></i>
                         Logout
                     </a>

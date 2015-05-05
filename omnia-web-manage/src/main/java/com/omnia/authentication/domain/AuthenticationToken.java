@@ -47,10 +47,10 @@ public class AuthenticationToken extends AbstractAnnotatedAggregateRoot {
 
     public boolean authentication(String username, String password){
         if(username.equals(this.userName) && password.equals(this.password)){
-            handle(new LoginSuccessEvent(this.userId, username, new Date()));
+//            handle(new LoginSuccessEvent(this.userId, username, new Date()));
             return true;
         }else{
-            handle(new LoginFailedEvent(this.userId, username, new Date()));
+//            handle(new LoginFailedEvent(this.userId, username, new Date()));
             return false;
         }
     }
