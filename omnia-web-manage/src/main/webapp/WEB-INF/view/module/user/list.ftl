@@ -11,18 +11,15 @@
 
             <div class="breadcrumb-env">
 
-                <ol class="breadcrumb bc-1">
+                <ol id="navigation" class="breadcrumb bc-1">
                     <li>
                         <a href="dashboard-1.html"><i class="fa-home"></i>Home</a>
                     </li>
-                    <li>
-
-                        <a href="tables-basic.html">Tables</a>
-                    </li>
-                    <li class="active">
-
-                        <strong>Data Tables</strong>
-                    </li>
+                    <#list navigation as n>
+                        <li>
+                            <a href="${n.href}">${n.name}</a>
+                        </li>
+                    </#list>
                 </ol>
 
             </div>
@@ -39,6 +36,7 @@
                 <script type="text/javascript">
                     jQuery(document).ready(function($)
                     {
+                        $('#navigation').find('li:last').addClass('active');
                         $("#user_table").dataTable({
                             serverSide: true,
                             ajax: {

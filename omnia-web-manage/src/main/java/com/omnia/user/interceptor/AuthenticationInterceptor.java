@@ -25,10 +25,10 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
         if(handler instanceof HandlerMethod){
             HandlerMethod method = (HandlerMethod) handler;
             //new @Login strategy can put here.
-//            Annotation loginAnnotation = method.getMethodAnnotation(Login.class);
-//            if(null == loginAnnotation){
-//                return super.preHandle(request, response, handler);
-//            }
+            Annotation loginAnnotation = method.getMethodAnnotation(Login.class);
+            if(null == loginAnnotation){
+                return super.preHandle(request, response, handler);
+            }
             HttpSession session = request.getSession();
             LoginSession user = (LoginSession) session.getAttribute("loginSession");
             if(user != null){

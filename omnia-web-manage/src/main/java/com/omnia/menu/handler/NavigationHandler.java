@@ -12,6 +12,5 @@ public class NavigationHandler implements ViewHandler{
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response) {
-
     }
 }
