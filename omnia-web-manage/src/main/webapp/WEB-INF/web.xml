@@ -9,6 +9,9 @@
         <url-pattern>/static/*</url-pattern>
     </servlet-mapping>
 
+    <session-config>
+        <session-timeout>20</session-timeout>
+    </session-config>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:context.xml</param-value>

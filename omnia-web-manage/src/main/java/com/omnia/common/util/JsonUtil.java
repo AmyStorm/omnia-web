@@ -3,6 +3,7 @@ package com.omnia.common.util;
 import com.alibaba.fastjson.JSON;
 
 /**
+ * JSON util with alibaba fastjson.
  * Created by khaerothe on 2015/4/28.
  */
 public class JsonUtil {

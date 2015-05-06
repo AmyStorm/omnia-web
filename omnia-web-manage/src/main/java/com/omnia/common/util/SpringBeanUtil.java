@@ -3,12 +3,10 @@ package com.omnia.common.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by khaerothe on 2015/4/30.
  */
-@Component
 public class SpringBeanUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
@@ -29,12 +27,11 @@ public class SpringBeanUtil implements ApplicationContextAware {
         return applicationContext;
     }
 
+
     /**
-     * 获取对象
-     * 这里重写了bean方法，起主要作用
-     *
+     * get bean instance method.
      * @param name
-     * @return Object 一个以所给名字注册的bean的实例
+     * @return
      * @throws BeansException
      */
     public static Object getBean(String name) throws BeansException {

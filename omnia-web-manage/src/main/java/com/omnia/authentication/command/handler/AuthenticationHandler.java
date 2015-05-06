@@ -1,8 +1,8 @@
-package com.omnia.authentication.command;
+package com.omnia.authentication.command.handler;
 
+import com.omnia.authentication.command.LoginCommand;
+import com.omnia.authentication.command.LogoutCommand;
 import com.omnia.authentication.domain.AuthenticationToken;
-import com.omnia.authentication.domain.command.LoginCommand;
-import com.omnia.authentication.domain.command.LogoutCommand;
 import com.omnia.authentication.repository.UserRepository;
 import com.omnia.authentication.vo.LoginSession;
 import org.axonframework.commandhandling.annotation.CommandHandler;

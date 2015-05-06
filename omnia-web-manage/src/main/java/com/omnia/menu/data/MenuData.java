@@ -12,7 +12,7 @@ import java.util.List;
 public class MenuData {
     private static final List<MenuElementEntry> MENU_ELEMENTS = ImmutableList.of(
             new MenuElementEntry("article", "EXAMPLE1", "linecons-cog", "abc", null),
-            new MenuElementEntry("user", "EXAMPLE2", "linecons-desktop", "bbb", null),
+            new MenuElementEntry("user", "user management", "linecons-desktop", "user", null),
             new MenuElementEntry("management", "EXAMPLE3", "linecons-note", "ccc", null),
             new MenuElementEntry("menu", "EXAMPLE4", "linecons-star", "ddd",
                     ImmutableList.of(new MenuElementEntry("menuChild1", "EXAMPLE5", "linecons-params", "eee", null))));

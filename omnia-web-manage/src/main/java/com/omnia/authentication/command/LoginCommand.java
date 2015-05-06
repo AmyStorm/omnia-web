@@ -1,4 +1,4 @@
-package com.omnia.authentication.domain.command;
+package com.omnia.authentication.command;
 
 
 /**
