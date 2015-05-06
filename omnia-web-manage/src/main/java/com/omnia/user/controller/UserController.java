@@ -2,8 +2,9 @@ package com.omnia.user.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.omnia.common.util.pager.DataTablePager;
 import com.omnia.user.annotation.Login;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     private static final JSONObject json = new JSONObject();
 
     static class Temp{
@@ -80,9 +82,9 @@ public class UserController {
     public String list(HttpServletRequest request){
         String draw = request.getParameter("draw");
         String start = request.getParameter("start");
-        System.out.println(request.getParameter("draw"));
-        System.out.println(request.getParameter("start"));
-        System.out.println(request.getParameter("length"));
+//        System.out.println(request.getParameter("draw"));
+//        System.out.println(request.getParameter("start"));
+//        System.out.println(request.getParameter("length"));
         if(start.equals("0")){
             return json.toString();
         }else if(start.equals("10")){

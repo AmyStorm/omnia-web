@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.omnia.common.handler.SitemeshTemplateHandler;
 import com.omnia.common.handler.ViewHandler;
 import com.omnia.menu.handler.MenuHandler;
+import com.omnia.menu.handler.NavigationHandler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -31,7 +32,7 @@ public class FreemarkerFilter implements Filter {
 	/**
 	 * dynamic adding new handler to handle more view elements.
 	 */
-	private ViewHandler handler = new SitemeshTemplateHandler(new MenuHandler());
+	private ViewHandler handler = new SitemeshTemplateHandler(new MenuHandler(), new NavigationHandler());
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
