@@ -2,8 +2,8 @@ package com.omnia.user.interceptor;
 
 import com.omnia.authentication.vo.LoginSession;
 import com.omnia.user.annotation.Login;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,7 +18,7 @@ import java.lang.annotation.Annotation;
  */
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 
-    private static final Log LOG = LogFactory.getLog(AuthenticationInterceptor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         LOG.info("Login Authentication, path: " + request.getRequestURI());

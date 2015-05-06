@@ -1,8 +1,8 @@
 package com.omnia.common.listener;
 
 import akka.actor.ActorSystem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import scala.concurrent.duration.Duration;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Created by khaerothe on 2015/4/30.
  */
 public class AkkaListener implements ServletContextListener {
-    private static final Log LOG = LogFactory.getLog(AkkaListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AkkaListener.class);
 
     @Autowired
     private ActorSystem system;

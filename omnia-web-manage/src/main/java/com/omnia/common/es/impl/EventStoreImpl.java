@@ -22,8 +22,8 @@ import eventstore.j.EventDataBuilder;
 import eventstore.j.SettingsBuilder;
 import eventstore.j.WriteEventsBuilder;
 import eventstore.tcp.ConnectionActor;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rx.Observable;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class EventStoreImpl implements EventStore {
 
-    private static final Log LOG = LogFactory.getLog(EventStoreImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventStoreImpl.class);
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 

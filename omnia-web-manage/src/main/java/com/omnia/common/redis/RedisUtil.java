@@ -1,7 +1,7 @@
 package com.omnia.common.redis;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public final class RedisUtil {
 
-    private static final Log LOG = LogFactory.getLog(RedisUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RedisUtil.class);
     //Redis服务器IP
     private static String ADDR = "127.0.0.1";
 

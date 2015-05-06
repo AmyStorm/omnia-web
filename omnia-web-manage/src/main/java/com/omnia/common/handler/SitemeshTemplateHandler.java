@@ -1,10 +1,8 @@
 package com.omnia.common.handler;
 
-import com.omnia.common.util.SpringBeanUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
@@ -21,7 +19,7 @@ import java.util.Locale;
  */
 public class SitemeshTemplateHandler implements ViewHandler {
 
-    private static Log LOG = LogFactory.getLog(SitemeshTemplateHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SitemeshTemplateHandler.class);
     private List<ViewHandler> handlerList = new ArrayList<>();
 
     public SitemeshTemplateHandler(ViewHandler... handlers){
@@ -46,7 +44,8 @@ public class SitemeshTemplateHandler implements ViewHandler {
             String name = request.getRequestURI();
             name = name.substring(1, name.lastIndexOf(".dec"));
             name = name.substring(name.lastIndexOf("/", name.lastIndexOf("/") - 1));
-            ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+//            ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+            ApplicationContext context = RequestContextUtils.getWebApplicationContext(request);
             FreeMarkerViewResolver viewResolver = (FreeMarkerViewResolver) context.getBean("templateViewResolver");
             View view = viewResolver.resolveViewName(name, locale);
             view.render(null, request, response);
