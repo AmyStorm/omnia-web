@@ -1,7 +1,7 @@
-package com.omnia.common.es;
+package com.omnia.infrastructure.es;
 
-import com.omnia.common.es.dataformat.EventStream;
-import com.omnia.common.event.Event;
+import com.omnia.infrastructure.es.dataformat.EventStream;
+import com.omnia.infrastructure.event.Event;
 import rx.Observable;
 
 import java.util.List;

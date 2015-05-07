@@ -1,6 +1,6 @@
-package com.omnia.common.es.dataformat;
+package com.omnia.infrastructure.es.dataformat;
 
-import com.omnia.common.event.Event;
+import com.omnia.infrastructure.event.Event;
 
 /**
  * Created by Administrator on 2015/4/28.

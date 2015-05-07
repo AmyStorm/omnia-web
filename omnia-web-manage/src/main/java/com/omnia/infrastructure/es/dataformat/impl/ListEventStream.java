@@ -1,7 +1,7 @@
-package com.omnia.common.es.dataformat.impl;
+package com.omnia.infrastructure.es.dataformat.impl;
 
-import com.omnia.common.es.dataformat.EventStream;
-import com.omnia.common.event.Event;
+import com.omnia.infrastructure.es.dataformat.EventStream;
+import com.omnia.infrastructure.event.Event;
 
 import java.util.Collections;
 import java.util.Iterator;

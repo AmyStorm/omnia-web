@@ -3,9 +3,9 @@ package com.omnia.authentication.domain;
 import com.google.common.collect.ImmutableList;
 import com.omnia.authentication.domain.event.LoginFailedEvent;
 import com.omnia.authentication.domain.event.LoginSuccessEvent;
-import com.omnia.common.es.EventStore;
-import com.omnia.common.es.dataformat.EventStream;
-import com.omnia.common.es.impl.EventStoreImpl;
+import com.omnia.infrastructure.es.EventStore;
+import com.omnia.infrastructure.es.dataformat.EventStream;
+import com.omnia.infrastructure.es.impl.EventStoreImpl;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
 

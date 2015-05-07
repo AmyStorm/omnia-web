@@ -1,4 +1,4 @@
-package com.omnia.common.event;
+package com.omnia.infrastructure.event;
 
 /**
  * Created by khaerothe on 2015/4/27.

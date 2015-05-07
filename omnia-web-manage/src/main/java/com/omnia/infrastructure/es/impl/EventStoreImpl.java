@@ -1,13 +1,13 @@
-package com.omnia.common.es.impl;
+package com.omnia.infrastructure.es.impl;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import com.omnia.common.es.EventStore;
-import com.omnia.common.es.actor.WriteResult;
-import com.omnia.common.es.dataformat.EventStream;
-import com.omnia.common.es.dataformat.impl.ListEventStream;
-import com.omnia.common.event.Event;
+import com.omnia.infrastructure.es.EventStore;
+import com.omnia.infrastructure.es.actor.WriteResult;
+import com.omnia.infrastructure.es.dataformat.EventStream;
+import com.omnia.infrastructure.es.dataformat.impl.ListEventStream;
+import com.omnia.infrastructure.event.Event;
 import com.omnia.common.util.JsonUtil;
 import com.omnia.common.util.SpringBeanUtil;
 import eventstore.EventData;

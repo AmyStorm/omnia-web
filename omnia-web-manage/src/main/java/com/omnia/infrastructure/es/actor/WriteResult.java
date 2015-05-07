@@ -1,4 +1,4 @@
-package com.omnia.common.es.actor;
+package com.omnia.infrastructure.es.actor;
 
 import akka.actor.Status;
 import akka.actor.UntypedActor;

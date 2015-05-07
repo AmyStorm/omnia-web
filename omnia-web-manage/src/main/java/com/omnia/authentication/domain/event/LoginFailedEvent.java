@@ -1,6 +1,6 @@
 package com.omnia.authentication.domain.event;
 
-import com.omnia.common.event.Event;
+import com.omnia.infrastructure.event.Event;
 
 import java.util.Date;
 import java.util.UUID;
