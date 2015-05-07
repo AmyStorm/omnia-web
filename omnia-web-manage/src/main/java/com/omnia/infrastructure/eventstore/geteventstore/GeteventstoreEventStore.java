@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.omnia.common.util.JsonUtil;
 import com.omnia.infrastructure.es.actor.WriteResult;
+import com.omnia.infrastructure.es.dataformat.impl.ListEventStream;
 import eventstore.Event;
 import eventstore.EventData;
 import eventstore.ReadStreamEventsCompleted;
@@ -90,7 +91,7 @@ public class GeteventstoreEventStore implements SnapshotEventStore, EventStoreMa
         try {
             ReadStreamEventsCompleted result = future.result(Duration.apply(10, TimeUnit.SECONDS), null);
             List<Event> events = result.eventsJava();
-            DomainEventStream eventStream = new Do
+            DomainEventStream eventStream = new ListEventStream(1, events);
         } catch (Exception e) {
             LOG.error("events data load error.", e);
         }

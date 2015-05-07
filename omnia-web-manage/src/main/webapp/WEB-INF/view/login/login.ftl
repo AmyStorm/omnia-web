@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="passwd">Password</label>
+                    <label class="control-label" for="password">Password</label>
                     <input type="password" class="form-control input-dark" name="password" id="password"
                            autocomplete="off"/>
                 </div>
