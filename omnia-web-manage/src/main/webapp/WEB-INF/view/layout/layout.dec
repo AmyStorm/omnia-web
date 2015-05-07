@@ -45,6 +45,8 @@
         <div class="main-content">
             <#include "main-top.dec">
 
+            <#include "main-title.dec">
+
             <sitemesh:write property='body'/>
 
             <#include "main-footer.dec">

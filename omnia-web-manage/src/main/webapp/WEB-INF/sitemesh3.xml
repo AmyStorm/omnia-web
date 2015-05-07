@@ -2,6 +2,7 @@
 <sitemesh>
     <content-processor>
         <tag-rule-bundle class="org.sitemesh.content.tagrules.html.DivExtractingTagRuleBundle" />
+        <tag-rule-bundle class="com.omnia.menu.tag.CustomTagRule" />
     </content-processor>
 
     <mapping path="/login*" decorator="/WEB-INF/view/clean/layout.dec" />

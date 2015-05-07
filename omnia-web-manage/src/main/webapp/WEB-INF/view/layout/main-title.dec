@@ -1,0 +1,32 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title"><sitemesh:write property='mainTitle'/></h1>
+
+        <p class="description"><sitemesh:write property='mainDescription'/></p>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol id="navigation" class="breadcrumb bc-1">
+            <li>
+                <a href="index"><i class="fa-home"></i>Home</a>
+            </li>
+            <#list navigation as n>
+
+                    <#if !u_has_next>
+                        <li class="active">
+                            <strong><a href="${n.href}">${n.name}</a></strong>
+                        </li>
+                        <#else>
+                            <li>
+                                <a href="${n.href}">${n.name}</a>
+                            </li>
+                    </#if>
+
+            </#list>
+        </ol>
+
+    </div>
+
+</div>
