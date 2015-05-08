@@ -4,7 +4,7 @@
     <file url="file://$PROJECT_DIR$/omnia-web-facade" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/omnia-web-manage" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/omnia-web-manage/src/main/java/com/omnia/infrastructure/eventstore/geteventstore/GetEventStoreEventEntry.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/omnia-web-manage/src/main/java/com/omnia/infrastructure/eventstore/geteventstore/GetEventStoreEventStore.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/omnia-web-manage/src/main/java/com/omnia/infrastructure/eventstore/geteventstore/GetEventStoreEventStream.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/omnia-web-manage/src/main/java/com/omnia/infrastructure/eventstore/geteventstore/GeteventstoreEventStore.java" charset="GBK" />
   </component>
 </project>
