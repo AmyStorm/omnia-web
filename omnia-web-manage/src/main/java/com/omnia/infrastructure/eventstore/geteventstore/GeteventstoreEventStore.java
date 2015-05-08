@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.omnia.common.util.JsonUtil;
-import com.omnia.infrastructure.es.actor.WriteResult;
+import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteResult;
 import eventstore.Event;
 import eventstore.EventData;
 import eventstore.ReadStreamEventsCompleted;
@@ -40,9 +40,9 @@ import java.util.concurrent.TimeUnit;
  * <p>Implementation of the <code>EventStore</code> based on a Event Store instance.
  * Created by Administrator on 2015/5/7.
  */
-public class GetEventStoreEventStore implements SnapshotEventStore, EventStoreManagement, UpcasterAware, PartialStreamSupport {
+public class GeteventstoreEventStore implements SnapshotEventStore, EventStoreManagement, UpcasterAware, PartialStreamSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GetEventStoreEventStore.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GeteventstoreEventStore.class);
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
@@ -56,7 +56,7 @@ public class GetEventStoreEventStore implements SnapshotEventStore, EventStoreMa
     private final EsConnection connection;
 
 
-    public GetEventStoreEventStore(String streamPrefix, ActorSystem system) {
+    public GeteventstoreEventStore(String streamPrefix, ActorSystem system) {
         this.streamPrefix = streamPrefix;
         this.system = system;
         this.connectionActor = system.actorOf(ConnectionActor.getProps(settings));
