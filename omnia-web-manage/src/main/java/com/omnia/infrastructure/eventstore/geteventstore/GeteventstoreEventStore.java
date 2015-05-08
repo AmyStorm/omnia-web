@@ -5,7 +5,6 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.omnia.common.util.JsonUtil;
 import com.omnia.infrastructure.es.actor.WriteResult;
-import com.omnia.infrastructure.es.dataformat.impl.ListEventStream;
 import eventstore.Event;
 import eventstore.EventData;
 import eventstore.ReadStreamEventsCompleted;
@@ -18,7 +17,6 @@ import eventstore.j.WriteEventsBuilder;
 import eventstore.tcp.ConnectionActor;
 import org.axonframework.domain.DomainEventMessage;
 import org.axonframework.domain.DomainEventStream;
-import org.axonframework.eventsourcing.ConflictResolver;
 import org.axonframework.eventstore.EventVisitor;
 import org.axonframework.eventstore.PartialStreamSupport;
 import org.axonframework.eventstore.SnapshotEventStore;
@@ -42,9 +40,9 @@ import java.util.concurrent.TimeUnit;
  * <p>Implementation of the <code>EventStore</code> based on a Event Store instance.
  * Created by Administrator on 2015/5/7.
  */
-public class GeteventstoreEventStore implements SnapshotEventStore, EventStoreManagement, UpcasterAware, PartialStreamSupport {
+public class GetEventStoreEventStore implements SnapshotEventStore, EventStoreManagement, UpcasterAware, PartialStreamSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GeteventstoreEventStore.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GetEventStoreEventStore.class);
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
@@ -58,7 +56,7 @@ public class GeteventstoreEventStore implements SnapshotEventStore, EventStoreMa
     private final EsConnection connection;
 
 
-    public GeteventstoreEventStore(String streamPrefix, ActorSystem system) {
+    public GetEventStoreEventStore(String streamPrefix, ActorSystem system) {
         this.streamPrefix = streamPrefix;
         this.system = system;
         this.connectionActor = system.actorOf(ConnectionActor.getProps(settings));
@@ -91,11 +89,14 @@ public class GeteventstoreEventStore implements SnapshotEventStore, EventStoreMa
         try {
             ReadStreamEventsCompleted result = future.result(Duration.apply(10, TimeUnit.SECONDS), null);
             List<Event> events = result.eventsJava();
-            DomainEventStream eventStream = new ListEventStream(1, events);
+
+            DomainEventStream eventStream = new GetEventStoreEventStream(1, events, identifier);
+            return eventStream;
         } catch (Exception e) {
             LOG.error("events data load error.", e);
+            return null;
         }
-        return null;
+
     }
 
     @Override

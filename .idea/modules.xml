@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/omnia-web.iml" filepath="$PROJECT_DIR$/.idea/omnia-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnia-web-facade/omnia-web-facade.iml" filepath="$PROJECT_DIR$/omnia-web-facade/omnia-web-facade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnia-web-manage/omnia-web-manage.iml" filepath="$PROJECT_DIR$/omnia-web-manage/omnia-web-manage.iml" />
+    </modules>
+  </component>
+</project>

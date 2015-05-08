@@ -6,7 +6,7 @@ import akka.actor.Props;
 import com.omnia.infrastructure.es.EventStore;
 import com.omnia.infrastructure.es.actor.WriteResult;
 import com.omnia.infrastructure.es.dataformat.EventStream;
-import com.omnia.infrastructure.es.dataformat.impl.ListEventStream;
+import com.omnia.infrastructure.eventstore.geteventstore.GetEventStoreEventStream;
 import com.omnia.infrastructure.event.Event;
 import com.omnia.common.util.JsonUtil;
 import com.omnia.common.util.SpringBeanUtil;
@@ -80,9 +80,11 @@ public class EventStoreImpl implements EventStore {
                 Event domainEvent = parse(event);
                 events.add(domainEvent);
             }
-            return new ListEventStream(result.lastEventNumber().value(), events);
+//            return new GetEventStoreEventStream(result.lastEventNumber().value(), events);
+            return null;
         } catch (StreamNotFoundException e) {
-            return new ListEventStream(-1, Collections.emptyList());
+//            return new GetEventStoreEventStream(-1, Collections.emptyList());
+            return null;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
