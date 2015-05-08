@@ -1,4 +1,4 @@
-package com.omnia.infrastructure.es.actor;
+package com.omnia.infrastructure.eventstore.geteventstore.actor;
 
 import akka.actor.Status;
 import akka.actor.UntypedActor;
