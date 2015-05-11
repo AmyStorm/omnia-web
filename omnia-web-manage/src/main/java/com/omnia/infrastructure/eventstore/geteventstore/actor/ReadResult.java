@@ -5,26 +5,28 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import eventstore.EsException;
-import eventstore.WriteEventsCompleted;
+import eventstore.Event;
+import eventstore.ReadEventCompleted;
 
 /**
- * Created by khaerothe on 2015/4/30.
+ * Created by khaerothe on 2015/5/11.
  */
-public final class WriteResult extends UntypedActor {
+public final class ReadResult extends UntypedActor{
+
     final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    @Override
     public void onReceive(Object message) throws Exception {
-        if (message instanceof WriteEventsCompleted) {
-            final WriteEventsCompleted completed = (WriteEventsCompleted) message;
-            log.info("range: {}, position: {}", completed.numbersRange(), completed.position());
+        if (message instanceof ReadEventCompleted) {
+            final ReadEventCompleted completed = (ReadEventCompleted) message;
+            final Event event = completed.event();
+            log.debug("event: {}", event);
         } else if (message instanceof Status.Failure) {
             final Status.Failure failure = ((Status.Failure) message);
             final EsException exception = (EsException) failure.cause();
             log.error(exception, exception.toString());
-        } else {
+        } else
             unhandled(message);
-        }
+
         context().system().shutdown();
     }
 }
