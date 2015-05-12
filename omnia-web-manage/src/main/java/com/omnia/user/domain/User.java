@@ -10,7 +10,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.Date;
 
 /**
- * Created by Administrator on 2015/5/11.
+ * Created by khaerothe on 2015/5/11.
  */
 public class User extends AbstractAnnotatedAggregateRoot {
 
@@ -27,6 +27,10 @@ public class User extends AbstractAnnotatedAggregateRoot {
     private Date createTime;
 
     private boolean isLogin = false;
+
+    User(){
+
+    }
 
     public User(String id, String username, String passwordHash){
         this.id = id;
@@ -61,10 +65,10 @@ public class User extends AbstractAnnotatedAggregateRoot {
 
     public boolean authentication(String password){
         if(BCrypt.checkpw(password, passwordHash)){
-                handle(new LoginSuccessEvent(this.id));
+            apply(new LoginSuccessEvent(this.id));
             return true;
         }else{
-                handle(new LoginFailedEvent(this.id));
+            apply(new LoginFailedEvent(this.id));
             return false;
         }
     }

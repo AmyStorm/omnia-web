@@ -7,12 +7,12 @@ import com.omnia.user.repository.UserRepository;
 import com.omnia.user.vo.LoginSession;
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by khaerothe on 2015/5/5.
  */
-@Component
+@Service
 public class AuthenticationHandler {
 
     @Autowired

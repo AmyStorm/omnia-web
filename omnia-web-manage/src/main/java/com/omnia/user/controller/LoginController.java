@@ -32,13 +32,11 @@ public class LoginController {
     @Autowired
     private CommandBus commandBus;
 
-//    private LoginService loginService = new LoginService();
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(HttpServletRequest request, HttpServletResponse response){
         LoginSession loginSession = (LoginSession) request.getSession().getAttribute("loginSession");
         if(loginSession != null){
-            //TODO when logging on, redirect a url;
             return "redirect:/index";
         }else{
             return "login/login";
@@ -69,10 +67,13 @@ public class LoginController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutProcess(HttpSession session){
-        LogoutCommand logoutCommand = new LogoutCommand();
+        LoginSession loginSession = (LoginSession) session.getAttribute(LOGIN_SESSION_NAME);
+        if(loginSession != null){
+            LogoutCommand logoutCommand = new LogoutCommand(loginSession.getId());
 
-        commandBus.dispatch(new GenericCommandMessage<>(logoutCommand));
-        session.removeAttribute(LOGIN_SESSION_NAME);
+            commandBus.dispatch(new GenericCommandMessage<>(logoutCommand));
+            session.removeAttribute(LOGIN_SESSION_NAME);
+        }
         return "redirect:/login";
     }
 }
