@@ -7,7 +7,9 @@ import java.util.Date;
 /**
  * Created by khaerothe on 2015/5/11.
  */
-public class UserCreateEvent implements Event {
+public final class UserCreateEvent implements Event {
+
+    private final String id;
 
     private final String username;
 
@@ -15,9 +17,26 @@ public class UserCreateEvent implements Event {
 
     private final Date createDate;
 
-    public UserCreateEvent(String username, String password){
+    public UserCreateEvent(String id, String username, String password){
+        this.id = id;
         this.username = username;
         this.password = password;
         this.createDate = new Date();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
     }
 }

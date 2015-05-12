@@ -1,10 +1,10 @@
-package com.omnia.authentication.command.handler;
+package com.omnia.user.command.handler;
 
-import com.omnia.authentication.command.LoginCommand;
-import com.omnia.authentication.command.LogoutCommand;
-import com.omnia.authentication.domain.AuthenticationToken;
-import com.omnia.authentication.repository.UserRepository;
-import com.omnia.authentication.vo.LoginSession;
+import com.omnia.user.command.LoginCommand;
+import com.omnia.user.command.LogoutCommand;
+import com.omnia.user.domain.User;
+import com.omnia.user.repository.UserRepository;
+import com.omnia.user.vo.LoginSession;
 import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,8 @@ public class AuthenticationHandler {
 
     @CommandHandler
     public LoginSession authenticationUser(LoginCommand loginCommand){
-        AuthenticationToken authenticationToken = userRepository.authentication(loginCommand.getUsername(), loginCommand.getPassword());
-        if(authenticationToken != null){
+        User user = userRepository.getUserByName(loginCommand.getUsername());
+        if(user != null && user.authentication(loginCommand.getPassword())){
             return new LoginSession(loginCommand.getUsername(), loginCommand.getPassword());
         }else{
             return null;

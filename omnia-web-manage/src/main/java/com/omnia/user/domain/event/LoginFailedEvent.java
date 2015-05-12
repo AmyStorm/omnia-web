@@ -8,13 +8,20 @@ import java.util.Date;
  * Created by khaerothe on 2015/4/29.
  */
 public final class LoginFailedEvent implements Event {
-    private final String username;
-    private final String password;
+
+    private final String userId;
     private final Date loginTime;
 
-    public LoginFailedEvent(String username, String password){
-        this.username = username;
-        this.password = password;
+    public LoginFailedEvent(String userId){
+        this.userId = userId;
         this.loginTime = new Date();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
     }
 }

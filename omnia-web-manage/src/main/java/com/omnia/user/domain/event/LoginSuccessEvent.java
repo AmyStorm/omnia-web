@@ -9,13 +9,19 @@ import java.util.Date;
  */
 public final class LoginSuccessEvent implements Event {
 
-    private final String username;
-    private final String password;
+    private final String userId;
     private final Date loginTime;
 
-    public LoginSuccessEvent(String username, String password){
-        this.username = username;
-        this.password = password;
+    public LoginSuccessEvent(String userId){
+        this.userId = userId;
         this.loginTime = new Date();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
     }
 }

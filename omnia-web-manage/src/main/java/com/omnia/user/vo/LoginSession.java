@@ -1,9 +1,10 @@
-package com.omnia.authentication.vo;
+package com.omnia.user.vo;
 
-import com.omnia.user.entity.User;
+
+import com.omnia.user.domain.User;
 
 /**
- * Created by Administrator on 2015/4/17.
+ * Created by khaerothe on 2015/4/17.
  */
 public final class LoginSession {
 
@@ -12,7 +13,7 @@ public final class LoginSession {
 
     public LoginSession(User user){
         this.id = user.getId();
-        this.name = user.getName();
+        this.name = user.getUserName();
     }
     public LoginSession(String id, String name){
         this.id = id;

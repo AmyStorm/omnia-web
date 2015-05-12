@@ -1,4 +1,4 @@
-package com.omnia.authentication.command;
+package com.omnia.user.command;
 
 
 /**

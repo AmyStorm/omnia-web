@@ -1,8 +1,8 @@
-package com.omnia.authentication.controller;
+package com.omnia.user.controller;
 
-import com.omnia.authentication.command.LoginCommand;
-import com.omnia.authentication.command.LogoutCommand;
-import com.omnia.authentication.vo.LoginSession;
+import com.omnia.user.command.LoginCommand;
+import com.omnia.user.command.LogoutCommand;
+import com.omnia.user.vo.LoginSession;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;
 import org.axonframework.commandhandling.callbacks.FutureCallback;
