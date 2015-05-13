@@ -52,11 +52,11 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
+    <!--<listener>-->
+        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+    <!--</listener>-->
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>com.omnia.common.listener.AkkaListener</listener-class>
+        <listener-class>com.omnia.common.listener.ComponentListener</listener-class>
     </listener>
 
     <welcome-file-list>

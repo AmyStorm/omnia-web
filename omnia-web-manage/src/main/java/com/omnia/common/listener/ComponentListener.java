@@ -1,33 +1,51 @@
 package com.omnia.common.listener;
 
 import akka.actor.ActorSystem;
+import com.omnia.user.domain.command.CreateUserCommand;
+import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.GenericCommandMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import scala.concurrent.duration.Duration;
 
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by khaerothe on 2015/4/30.
  */
-public class AkkaListener implements ServletContextListener {
-    private static final Logger LOG = LoggerFactory.getLogger(AkkaListener.class);
+public class ComponentListener extends ContextLoaderListener {
+    private static final Logger LOG = LoggerFactory.getLogger(ComponentListener.class);
+
+    @Autowired
+    private CommandBus commandBus;
 
     @Autowired
     private ActorSystem system;
 
+    public ComponentListener() {
+    }
+
+    public ComponentListener(WebApplicationContext context) {
+        super(context);
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        super.contextInitialized(servletContextEvent);
         //Get the actor system from the spring context
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+        CreateUserCommand command = new CreateUserCommand("zhangsan", "zhangsan");
+        commandBus.dispatch(new GenericCommandMessage<>(command));
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        super.contextDestroyed(servletContextEvent);
         if (system != null) {
             LOG.info("Killing ActorSystem as a part of web application ctx destruction.");
             system.shutdown();

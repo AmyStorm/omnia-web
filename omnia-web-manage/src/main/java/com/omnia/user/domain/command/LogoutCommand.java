@@ -1,4 +1,4 @@
-package com.omnia.user.command;
+package com.omnia.user.domain.command;
 
 /**
  * Created by khaerothe on 2015/5/4.

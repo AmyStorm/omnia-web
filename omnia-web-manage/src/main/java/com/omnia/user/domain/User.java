@@ -2,6 +2,7 @@ package com.omnia.user.domain;
 
 import com.omnia.user.domain.event.LoginFailedEvent;
 import com.omnia.user.domain.event.LoginSuccessEvent;
+import com.omnia.user.domain.event.UserCreateEvent;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler;
@@ -31,6 +32,11 @@ public class User extends AbstractAnnotatedAggregateRoot {
     User(){
 
     }
+
+//    public User(CreateUserCommand command){
+//        this.userName = command.getUsername();
+//        this.passwordHash = command.getPassword();
+//    }
 
     public User(String id, String username, String passwordHash){
         this.id = id;
@@ -84,4 +90,11 @@ public class User extends AbstractAnnotatedAggregateRoot {
         this.isLogin = false;
     }
 
+//    @EventSourcingHandler
+//    public void handle(UserCreateEvent event){
+//        this.id = event.getId();
+//        this.userName = event.getUsername();
+//        this.passwordHash = event.getPassword();
+//        this.createTime = event.getCreateTime();
+//    }
 }

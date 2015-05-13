@@ -15,13 +15,13 @@ public final class UserCreateEvent implements Event {
 
     private final String password;
 
-    private final Date createDate;
+    private final Date createTime;
 
     public UserCreateEvent(String id, String username, String password){
         this.id = id;
         this.username = username;
         this.password = password;
-        this.createDate = new Date();
+        this.createTime = new Date();
     }
 
     public String getId() {
@@ -36,7 +36,7 @@ public final class UserCreateEvent implements Event {
         return password;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateTime() {
+        return createTime;
     }
 }
