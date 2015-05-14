@@ -1,5 +1,6 @@
 package com.omnia.user.repository;
 
+
 import com.omnia.user.domain.User;
 
 /**
@@ -7,4 +8,5 @@ import com.omnia.user.domain.User;
  */
 public interface UserRepository {
     User getUserByName(String name);
+
 }

@@ -33,7 +33,7 @@ public class UserCommandHandler {
     public void createUser(CreateUserCommand command){
         final String id = UUID.randomUUID().toString();
         final String password = BCrypt.hashpw(command.getPassword(), BCrypt.gensalt());
-        User user = new User(id, command.getUsername(), password);
+        User user = new User(id, command.getUsername() , password);
         repository.add(user);
         UserRepositoryImpl.inMemoryUser.put(id, user);
     }
@@ -41,14 +41,16 @@ public class UserCommandHandler {
     @CommandHandler
     public LoginSession authenticationUser(LoginCommand loginCommand){
         User user = userRepository.getUserByName(loginCommand.getUsername());
+//        User user = repository.load(new UserIdentifier(loginCommand.getUsername()));
         if(user != null && user.authentication(loginCommand.getPassword())){
-            return new LoginSession(loginCommand.getUsername(), loginCommand.getPassword());
+            return new LoginSession(user.getIdentifier(), user.getUserName());
         }else{
             return null;
         }
     }
     @CommandHandler
     public void logout(LogoutCommand logoutCommand){
-
+        User user = repository.load(logoutCommand.getIdentifier());
+        user.logout();
     }
 }

@@ -58,7 +58,7 @@ public class UserController {
         JSONArray array = new JSONArray();
         for(Map.Entry<String, User> entry : UserRepositoryImpl.inMemoryUser.entrySet()){
             User user = entry.getValue();
-            array.add(new Temp(user.getId(), user.getUserName(), user.getCreateTime().toString(), "<a href=\"#\" class=\"btn btn-secondary btn-sm btn-icon icon-left\">Edit</a>"));
+            array.add(new Temp(user.getIdentifier(), user.getUserName(), user.getCreateTime().toString(), "<a href=\"#\" class=\"btn btn-secondary btn-sm btn-icon icon-left\">Edit</a>"));
 
         }
 //        array.add(new Temp("1", "zhangsan", "2015-05-06", "<a href=\"#\" class=\"btn btn-secondary btn-sm btn-icon icon-left\">Edit</a>"));

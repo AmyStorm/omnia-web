@@ -2,6 +2,7 @@ package com.omnia.user.domain;
 
 import com.omnia.user.domain.event.LoginFailedEvent;
 import com.omnia.user.domain.event.LoginSuccessEvent;
+import com.omnia.user.domain.event.LogoutSuccessEvent;
 import com.omnia.user.domain.event.UserCreateEvent;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
@@ -16,8 +17,9 @@ import java.util.Date;
 public class User extends AbstractAnnotatedAggregateRoot {
 
     private static final long serialVersionUID = -8790365271419005881L;
+
     @AggregateIdentifier
-    private String id;
+    private String identifier;
 
     private String userName;
 
@@ -38,15 +40,13 @@ public class User extends AbstractAnnotatedAggregateRoot {
 //        this.passwordHash = command.getPassword();
 //    }
 
-    public User(String id, String username, String passwordHash){
-        this.id = id;
-        this.userName = username;
-        this.passwordHash = passwordHash;
-        this.createTime = new Date();
+    public User(String identifier, String userName, String passwordHash){
+        apply(new UserCreateEvent(identifier, userName, passwordHash));
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 
     public String getUserName() {
@@ -71,30 +71,42 @@ public class User extends AbstractAnnotatedAggregateRoot {
 
     public boolean authentication(String password){
         if(BCrypt.checkpw(password, passwordHash)){
-            apply(new LoginSuccessEvent(this.id));
+            apply(new LoginSuccessEvent(this.identifier));
             return true;
         }else{
-            apply(new LoginFailedEvent(this.id));
+            apply(new LoginFailedEvent(this.identifier));
             return false;
         }
     }
 
+    public boolean logout(){
+        apply(new LogoutSuccessEvent(this.identifier));
+        return true;
+    }
+
     @EventSourcingHandler
-    public void handle(LoginSuccessEvent event){
+    private void handle(LoginSuccessEvent event){
         this.lastLogin = event.getLoginTime();
         this.isLogin = true;
     }
 
     @EventSourcingHandler
-    public void handle(LoginFailedEvent event){
+    private void handle(LoginFailedEvent event){
+        this.identifier = event.getIdentifier();
         this.isLogin = false;
     }
 
-//    @EventSourcingHandler
-//    public void handle(UserCreateEvent event){
-//        this.id = event.getId();
-//        this.userName = event.getUsername();
-//        this.passwordHash = event.getPassword();
-//        this.createTime = event.getCreateTime();
-//    }
+    @EventSourcingHandler
+    private void handle(LogoutSuccessEvent event){
+        this.identifier = event.getIdentifier();
+        this.isLogin = false;
+    }
+
+    @EventSourcingHandler
+    private void handle(UserCreateEvent event){
+        this.identifier = event.getIdentifier();
+        this.userName = event.getUserName();
+        this.passwordHash = event.getPassword();
+        this.createTime = event.getCreateTime();
+    }
 }

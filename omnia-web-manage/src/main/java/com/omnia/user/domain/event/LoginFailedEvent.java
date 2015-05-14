@@ -9,16 +9,16 @@ import java.util.Date;
  */
 public final class LoginFailedEvent implements Event {
 
-    private final String userId;
+    private final String identifier;
     private final Date loginTime;
 
-    public LoginFailedEvent(String userId){
-        this.userId = userId;
+    public LoginFailedEvent(String identifier){
+        this.identifier = identifier;
         this.loginTime = new Date();
     }
 
-    public String getUserId() {
-        return userId;
+    public String getIdentifier() {
+        return identifier;
     }
 
     public Date getLoginTime() {

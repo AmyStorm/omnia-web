@@ -61,7 +61,7 @@ public class LoginController {
             session.setAttribute(LOGIN_SESSION_NAME, loginSession);
             return "{\"success\" : true}";
         }else{
-            return "{\"success\" : true}";
+            return "{\"success\" : false}";
         }
     }
 

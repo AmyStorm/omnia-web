@@ -9,27 +9,27 @@ import java.util.Date;
  */
 public final class UserCreateEvent implements Event {
 
-    private final String id;
+    private final String identifier;
 
-    private final String username;
+    private final String userName;
 
     private final String password;
 
     private final Date createTime;
 
-    public UserCreateEvent(String id, String username, String password){
-        this.id = id;
-        this.username = username;
+    public UserCreateEvent(String identifier, String userName, String password){
+        this.identifier = identifier;
+        this.userName = userName;
         this.password = password;
         this.createTime = new Date();
     }
 
-    public String getId() {
-        return id;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     public String getPassword() {

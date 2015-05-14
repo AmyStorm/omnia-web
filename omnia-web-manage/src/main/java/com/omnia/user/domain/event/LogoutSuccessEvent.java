@@ -1,13 +1,12 @@
-package com.omnia.user.domain.command;
-
+package com.omnia.user.domain.event;
 
 /**
- * Created by khaerothe on 2015/5/4.
+ * Created by Administrator on 2015/5/14.
  */
-public final class LogoutCommand {
+public class LogoutSuccessEvent {
     private final String identifier;
 
-    public LogoutCommand(String identifier){
+    public LogoutSuccessEvent(String identifier){
         this.identifier = identifier;
     }
 
