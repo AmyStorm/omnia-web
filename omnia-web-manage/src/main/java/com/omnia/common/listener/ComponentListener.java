@@ -1,17 +1,14 @@
 package com.omnia.common.listener;
 
 import akka.actor.ActorSystem;
-import com.omnia.user.domain.User;
-import com.omnia.user.domain.command.CreateUserCommand;
-import com.omnia.user.repository.UserRepository;
-import com.omnia.user.repository.impl.UserRepositoryImpl;
+import com.omnia.module.command.user.domain.command.CreateUserCommand;
+import com.omnia.module.query.user.UserListener;
+import com.omnia.module.query.user.repository.UserQueryRepository;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;
-import org.axonframework.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -33,7 +30,7 @@ public class ComponentListener extends ContextLoaderListener {
     private ActorSystem system;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserListener userListener;
 
     public ComponentListener() {
     }
@@ -47,10 +44,12 @@ public class ComponentListener extends ContextLoaderListener {
         super.contextInitialized(servletContextEvent);
         //Get the actor system from the spring context
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+
 //        User user = userRepository.getUserById("bcf5e485-a81f-4b4b-ae12-3fd7c7c7ef73");
-//        UserRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
-        CreateUserCommand command = new CreateUserCommand("zhangsan", "zhangsan");
+//        UserQueryRepository.inMemoryUser.put(user.getIdentifier(), user);
+        CreateUserCommand command = new CreateUserCommand("lisi", "lisi");
         commandBus.dispatch(new GenericCommandMessage<>(command));
+        userListener.handleUserTracing();
     }
 
     @Override

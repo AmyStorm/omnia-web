@@ -134,9 +134,9 @@
         <!--<property name="userRepository" ref="userRepository" />-->
     <!--</bean>-->
 
-    <!--<bean id="userRepository" class="com.omnia.user.repository.impl.UserRepositoryImpl" />-->
+    <!--<bean id="userRepository" class="com.omnia.user.repository.impl.UserQueryRepository" />-->
     <axon:event-sourcing-repository id="userRepository"
-                                    aggregate-type="com.omnia.user.domain.User"
+                                    aggregate-type="com.omnia.module.command.user.domain.User"
                                     event-bus="eventBus"
                                     event-store="eventStore" >
         <axon:snapshotter-trigger event-count-threshold="5" snapshotter-ref="snapshotter"/>
