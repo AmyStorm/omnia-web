@@ -3,6 +3,7 @@ package com.omnia.module.query.user;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.omnia.module.command.user.domain.User;
+import com.omnia.module.command.user.domain.event.LoginSuccessEvent;
 import com.omnia.module.command.user.domain.event.UserCreateEvent;
 import com.omnia.module.query.user.repository.impl.UserQueryRepositoryImpl;
 import com.thoughtworks.xstream.XStream;
@@ -57,8 +58,14 @@ public class UserListener {
             String payload = dbMap.get("serializedPayload").toString();
 
             XStream xstream = new XStream();
-            UserCreateEvent event = (UserCreateEvent) xstream.fromXML(payload);
-            UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), new User(dbMap.get("aggregateIdentifier").toString(), event.getUserName() ,event.getPassword()));
+            Object event = xstream.fromXML(payload);
+            if(event instanceof UserCreateEvent){
+                UserCreateEvent e  = (UserCreateEvent) event;
+                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), new User(dbMap.get("aggregateIdentifier").toString(), e.getUserName() ,e.getPassword()));
+            }else if(event instanceof LoginSuccessEvent){
+                LoginSuccessEvent e  = (LoginSuccessEvent) event;
+//                UserQueryRepositoryImpl.inMemoryUser.get(e.getIdentifier()).;
+            }
 
             System.out.println(UserQueryRepositoryImpl.inMemoryUser);
         }
