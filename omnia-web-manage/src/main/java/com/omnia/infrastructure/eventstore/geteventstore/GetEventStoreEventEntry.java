@@ -3,22 +3,15 @@ package com.omnia.infrastructure.eventstore.geteventstore;
 import eventstore.Event;
 import org.axonframework.domain.DomainEventMessage;
 import org.axonframework.serializer.SerializedDomainEventData;
-import org.axonframework.serializer.SerializedDomainEventMessage;
 import org.axonframework.serializer.SerializedMetaData;
 import org.axonframework.serializer.SerializedObject;
 import org.axonframework.serializer.Serializer;
 import org.axonframework.serializer.SimpleSerializedObject;
-import org.axonframework.serializer.UnknownSerializedTypeException;
-import org.axonframework.serializer.json.JacksonSerializer;
-import org.axonframework.upcasting.SerializedDomainEventUpcastingContext;
-import org.axonframework.upcasting.SimpleUpcasterChain;
-import org.axonframework.upcasting.UpcastSerializedDomainEventData;
 import org.axonframework.upcasting.UpcasterChain;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.axonframework.serializer.MessageSerializer.serializeMetaData;
@@ -33,6 +26,7 @@ public class GetEventStoreEventEntry implements SerializedDomainEventData {
     private static final Logger LOG = LoggerFactory.getLogger(GetEventStoreEventEntry.class);
 
     private String aggregateIdentifier;
+    private String eventIdentifier;
     private long sequenceNumber;
     private String timeStamp;
     private String aggregateType;
@@ -40,11 +34,10 @@ public class GetEventStoreEventEntry implements SerializedDomainEventData {
     private String payloadType;
     private String payloadRevision;
     private Object serializedMetaData;
-    private String eventIdentifier;
-    private Serializer eventSerializer;
+    private Serializer serializer;
 
     public GetEventStoreEventEntry(String aggregateType, DomainEventMessage event, Serializer serializer){
-        this.eventSerializer = serializer;
+        this.serializer = serializer;
         this.aggregateType = aggregateType;
         this.aggregateIdentifier = event.getAggregateIdentifier().toString();
         this.sequenceNumber = event.getSequenceNumber();
@@ -62,6 +55,11 @@ public class GetEventStoreEventEntry implements SerializedDomainEventData {
         this.serializedMetaData = serializedMetaDataObject.getData();
         this.timeStamp = event.getTimestamp().toString();
     }
+
+    public GetEventStoreEventEntry(Event event){
+
+    }
+
 
     @Override
     public String getEventIdentifier() {
@@ -95,9 +93,16 @@ public class GetEventStoreEventEntry implements SerializedDomainEventData {
 
     public List<DomainEventMessage> getDomainEvents(Object aggregateIdentifier,
                                                     UpcasterChain upcasterChain, boolean skipUnknownTypes){
-        return upcastAndDeserialize(this, aggregateIdentifier, this.eventSerializer,
+        return upcastAndDeserialize(this, aggregateIdentifier, serializer,
                 upcasterChain, skipUnknownTypes);
     }
+
+    public List<DomainEventMessage> getDomainEvents(Object aggregateIdentifier, Serializer serializer,
+                                                    UpcasterChain upcasterChain, boolean skipUnknownTypes){
+        return upcastAndDeserialize(this, aggregateIdentifier, serializer,
+                upcasterChain, skipUnknownTypes);
+    }
+
 
     private Class<?> getRepresentationType() {
         Class<?> representationType = String.class;

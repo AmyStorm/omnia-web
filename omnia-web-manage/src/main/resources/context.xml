@@ -88,6 +88,11 @@
           <!--p:dataSource-ref="dataSource" />-->
 
 
+    <!--<bean id="getEventStoreEventStore" class="com.omnia.infrastructure.eventstore.geteventstore.GetEventStoreEventStore">-->
+        <!--<constructor-arg  value="user" />-->
+        <!--<constructor-arg  ref="actorSystem" />-->
+    <!--</bean>-->
+
     <bean id="eventStore" class="org.axonframework.eventstore.mongo.MongoEventStore">
         <constructor-arg ref="mongoTemplate"/>
     </bean>

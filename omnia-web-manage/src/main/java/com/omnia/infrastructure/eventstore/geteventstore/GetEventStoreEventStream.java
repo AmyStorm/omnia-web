@@ -1,12 +1,9 @@
 package com.omnia.infrastructure.eventstore.geteventstore;
 
-import com.omnia.common.util.JsonUtil;
 import com.omnia.infrastructure.es.dataformat.EventStream;
 import eventstore.Event;
 import eventstore.ReadStreamEventsCompleted;
 import org.axonframework.domain.DomainEventMessage;
-import org.axonframework.serializer.Serializer;
-import org.axonframework.serializer.json.JacksonSerializer;
 import org.axonframework.upcasting.SimpleUpcasterChain;
 import org.axonframework.upcasting.UpcasterChain;
 import org.slf4j.Logger;
@@ -31,6 +28,8 @@ public class GetEventStoreEventStream implements EventStream<Long> {
     private DomainEventMessage next;
     private Object aggregateIdentifier;
     private ReadStreamEventsCompleted result;
+    private UpcasterChain upcasterChain = SimpleUpcasterChain.EMPTY;
+    private boolean skipUnknownTypes = false;
 
     public GetEventStoreEventStream(Object aggregateIdentifier) {
         this.version = 0;
@@ -50,21 +49,20 @@ public class GetEventStoreEventStream implements EventStream<Long> {
     public GetEventStoreEventStream(long version, ReadStreamEventsCompleted result, Object aggregateIdentifier){
         this.aggregateIdentifier = aggregateIdentifier;
         this.version = version;
-        UpcasterChain upcasterChain = SimpleUpcasterChain.EMPTY;
-        Serializer serializer = new JacksonSerializer();
         this.result = result;
         List<Event> events = result.eventsJava();
         List<DomainEventMessage> domainEventMessages = new ArrayList<>();
+
         try {
             for(Event event : events){
-                domainEventMessages.add(parse(event));
+                GetEventStoreEventEntry entry = new GetEventStoreEventEntry(event);
+                domainEventMessages.addAll(parse(entry));
             }
         } catch (ClassNotFoundException | IOException e) {
             LOG.error("init GetEventStoreEventStream error.", e);
         }
         this.iterator = domainEventMessages.iterator();
         this.next = null;
-//        new GetEventStoreEventEntry(aggregateIdentifier.toString(), events.get(0), serializer).getDomainEvents(aggregateIdentifier, upcasterChain, false);
     }
 
     @Override
@@ -89,10 +87,11 @@ public class GetEventStoreEventStream implements EventStream<Long> {
         return next;
     }
 
-    private DomainEventMessage parse(eventstore.Event event)
+    private List<DomainEventMessage> parse(GetEventStoreEventEntry entry)
             throws ClassNotFoundException, IOException {
-        Class<? extends DomainEventMessage> type = (Class<? extends DomainEventMessage>) Class.forName(event.data().eventType());
-        String json = new String(event.data().data().value().toArray(), UTF8);
-        return JsonUtil.parseObjectFromJson(json, type);
+//        Class<? extends GetEventStoreEventEntry> type = (Class<? extends GetEventStoreEventEntry>) Class.forName(entry);
+//        String json = new String(event.data().data().value().toArray(), UTF8);
+//        return JsonUtil.parseObjectFromJson(json, type);
+        return entry.getDomainEvents(aggregateIdentifier, upcasterChain, skipUnknownTypes);
     }
 }
