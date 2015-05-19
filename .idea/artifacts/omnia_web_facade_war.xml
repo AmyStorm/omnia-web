@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="omnia-web-facade:war">
-    <output-path>$PROJECT_DIR$/omnia-web-facade/target</output-path>
-    <root id="archive" name="omnia-web.war">
-      <element id="artifact" artifact-name="omnia-web-facade:war exploded" />
-    </root>
-  </artifact>
-</component>
