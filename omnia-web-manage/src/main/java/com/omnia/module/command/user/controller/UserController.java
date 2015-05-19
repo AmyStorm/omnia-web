@@ -1,7 +1,5 @@
 package com.omnia.module.command.user.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.omnia.module.command.user.annotation.Login;
 import com.omnia.module.command.user.domain.User;
 import com.omnia.module.query.user.UserListener;
@@ -15,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Map;
 public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-    private static final JSONObject json = new JSONObject();
+    private static final Map json = new HashMap();
 
     static class Temp{
         private String id;
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     static {
-        JSONArray array = new JSONArray();
+        List<Temp> array = new ArrayList<>();
         for(Map.Entry<String, User> entry : UserQueryRepositoryImpl.inMemoryUser.entrySet()){
             User user = entry.getValue();
             array.add(new Temp(user.getIdentifier(), user.getUserName(), user.getCreateTime().toString(), "<a href=\"#\" class=\"btn btn-secondary btn-sm btn-icon icon-left\">Edit</a>"));
@@ -101,8 +102,8 @@ public class UserController {
         if(start.equals("0")){
             return json.toString();
         }else if(start.equals("10")){
-            JSONObject object = new JSONObject();
-            JSONArray array = new JSONArray();
+            Map object = new HashMap();
+            List array = new ArrayList();
             array.add(new Temp("11", "wangwu", "2015-05-04", "<a href=\"#\" class=\"btn btn-info btn-sm btn-icon icon-left\">Edit</a>"));
             array.add(new Temp("12", "wangwu", "2015-05-04", "<a href=\"#\" class=\"btn btn-info btn-sm btn-icon icon-left\">Edit</a>"));
             object.put("recordsTotal", 12);

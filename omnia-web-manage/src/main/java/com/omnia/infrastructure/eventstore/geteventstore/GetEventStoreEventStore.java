@@ -50,7 +50,7 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
 
     private final Serializer eventSerializer;
     private final String streamPrefix;
-    private final ActorRef connectionActor;
+    private ActorRef connectionActor;
     private final ActorRef readResult;
     private final ActorRef writeResult;
     private final EsConnection connection;
@@ -89,8 +89,8 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
     @Override
     public void appendEvents(String type, DomainEventStream events) {
 
-        WriteEventsBuilder builder = new WriteEventsBuilder(streamPrefix + DEFAULT_SEPARATOR + events.peek().getIdentifier());
-        while(events.hasNext()){
+        WriteEventsBuilder builder = new WriteEventsBuilder(streamPrefix + DEFAULT_SEPARATOR + events.peek().getAggregateIdentifier());
+        while (events.hasNext()) {
             DomainEventMessage message = events.next();
             GetEventStoreEventEntry entry = new GetEventStoreEventEntry(type, message, this.eventSerializer);
             builder = builder.addEvent(toEventData(entry));
@@ -116,21 +116,15 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
 //            e.printStackTrace();
 //        }
         final Future<ReadStreamEventsCompleted> future = connection.readStreamEventsForward(streamPrefix + DEFAULT_SEPARATOR + identifier, null, 1000, false, null);
+//        final Future<Event> future = connection.readEvent(streamPrefix + DEFAULT_SEPARATOR + identifier, new EventNumber.Exact(0), false, null);
         try {
             ReadStreamEventsCompleted result = future.result(Duration.apply(10, TimeUnit.SECONDS), null);
-
             return new GetEventStoreEventStream(-1, result, identifier);
         } catch (Exception e) {
             LOG.error("events data load error.", e);
             return null;
         }
-//        final ReadEvent readEvent = new ReadEventBuilder(streamPrefix + ":" + type)
-//                .first()
-//                .resolveLinkTos(false)
-//                .requireMaster(true)
-//                .build();
-//
-//        connectionActor.tell(readEvent, readResult);
+
     }
 
     @Override
@@ -150,4 +144,5 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
                 .jsonData(JsonUtil.parseJsonString(event))
                 .build();
     }
+
 }

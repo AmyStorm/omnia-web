@@ -27,7 +27,6 @@ public class GetEventStoreEventStream implements EventStream<Long> {
     private Iterator<DomainEventMessage> iterator = Collections.<DomainEventMessage>emptyList().iterator();
     private DomainEventMessage next;
     private Object aggregateIdentifier;
-    private ReadStreamEventsCompleted result;
     private UpcasterChain upcasterChain = SimpleUpcasterChain.EMPTY;
     private boolean skipUnknownTypes = false;
 
@@ -49,7 +48,6 @@ public class GetEventStoreEventStream implements EventStream<Long> {
     public GetEventStoreEventStream(long version, ReadStreamEventsCompleted result, Object aggregateIdentifier){
         this.aggregateIdentifier = aggregateIdentifier;
         this.version = version;
-        this.result = result;
         List<Event> events = result.eventsJava();
         List<DomainEventMessage> domainEventMessages = new ArrayList<>();
 

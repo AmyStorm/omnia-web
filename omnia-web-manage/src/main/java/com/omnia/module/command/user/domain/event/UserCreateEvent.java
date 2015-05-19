@@ -1,6 +1,7 @@
 package com.omnia.module.command.user.domain.event;
 
 import com.omnia.infrastructure.event.Event;
+import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier;
 
 import java.util.Date;
 
@@ -9,6 +10,7 @@ import java.util.Date;
  */
 public final class UserCreateEvent implements Event {
 
+    @TargetAggregateIdentifier
     private final String identifier;
 
     private final String userName;

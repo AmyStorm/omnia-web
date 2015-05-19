@@ -49,25 +49,25 @@ public class UserListener {
 //                userMap.put(aggregate, (User) message.getPayload());
 //            }
 //        }
-        DBCursor cursor = mongoTemplate.domainEventCollection().find();
-        while(cursor.hasNext()){
-            DBObject object = cursor.next();
-            Map dbMap = object.toMap();
-//            dbMap.forEach((k,v) -> System.out.println(k.toString() + v.toString()));
-
-            String payload = dbMap.get("serializedPayload").toString();
-
-            XStream xstream = new XStream();
-            Object event = xstream.fromXML(payload);
-            if(event instanceof UserCreateEvent){
-                UserCreateEvent e  = (UserCreateEvent) event;
-                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), new User(dbMap.get("aggregateIdentifier").toString(), e.getUserName() ,e.getPassword()));
-            }else if(event instanceof LoginSuccessEvent){
-                LoginSuccessEvent e  = (LoginSuccessEvent) event;
-//                UserQueryRepositoryImpl.inMemoryUser.get(e.getIdentifier()).;
-            }
-
-            System.out.println(UserQueryRepositoryImpl.inMemoryUser);
-        }
+//        DBCursor cursor = mongoTemplate.domainEventCollection().find();
+//        while(cursor.hasNext()){
+//            DBObject object = cursor.next();
+//            Map dbMap = object.toMap();
+////            dbMap.forEach((k,v) -> System.out.println(k.toString() + v.toString()));
+//
+//            String payload = dbMap.get("serializedPayload").toString();
+//
+//            XStream xstream = new XStream();
+//            Object event = xstream.fromXML(payload);
+//            if(event instanceof UserCreateEvent){
+//                UserCreateEvent e  = (UserCreateEvent) event;
+//                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), new User(dbMap.get("aggregateIdentifier").toString(), e.getUserName() ,e.getPassword()));
+//            }else if(event instanceof LoginSuccessEvent){
+//                LoginSuccessEvent e  = (LoginSuccessEvent) event;
+////                UserQueryRepositoryImpl.inMemoryUser.get(e.getIdentifier()).;
+//            }
+//
+//            System.out.println(UserQueryRepositoryImpl.inMemoryUser);
+//        }
     }
 }

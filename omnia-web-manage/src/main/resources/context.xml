@@ -88,10 +88,10 @@
           <!--p:dataSource-ref="dataSource" />-->
 
 
-    <!--<bean id="getEventStoreEventStore" class="com.omnia.infrastructure.eventstore.geteventstore.GetEventStoreEventStore">-->
-        <!--<constructor-arg  value="user" />-->
-        <!--<constructor-arg  ref="actorSystem" />-->
-    <!--</bean>-->
+    <bean id="getEventStoreEventStore" class="com.omnia.infrastructure.eventstore.geteventstore.GetEventStoreEventStore">
+        <constructor-arg  value="user" />
+        <constructor-arg  ref="actorSystem" />
+    </bean>
 
     <bean id="eventStore" class="org.axonframework.eventstore.mongo.MongoEventStore">
         <constructor-arg ref="mongoTemplate"/>
@@ -143,22 +143,22 @@
     <axon:event-sourcing-repository id="userRepository"
                                     aggregate-type="com.omnia.module.command.user.domain.User"
                                     event-bus="eventBus"
-                                    event-store="eventStore" >
-        <axon:snapshotter-trigger event-count-threshold="5" snapshotter-ref="snapshotter"/>
+                                    event-store="getEventStoreEventStore" >
+        <!--<axon:snapshotter-trigger event-count-threshold="5" snapshotter-ref="snapshotter"/>-->
     </axon:event-sourcing-repository>
 
     <!--<axon:aggregate-command-handler id="userCommandHandler" aggregate-type="com.omnia.user.domain.User" repository="userRepository" command-bus="commandBus" />-->
 
-    <bean id="snapshotter" class="org.axonframework.eventsourcing.SpringAggregateSnapshotter">
-        <property name="eventStore" ref="eventStore"/>
-        <property name="executor" ref="taskExecutor"/>
-    </bean>
+    <!--<bean id="snapshotter" class="org.axonframework.eventsourcing.SpringAggregateSnapshotter">-->
+        <!--<property name="eventStore" ref="eventStore"/>-->
+        <!--<property name="executor" ref="taskExecutor"/>-->
+    <!--</bean>-->
 
-    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="2"/>
-        <property name="maxPoolSize" value="5"/>
-        <property name="waitForTasksToCompleteOnShutdown" value="true"/>
-    </bean>
+    <!--<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">-->
+        <!--<property name="corePoolSize" value="2"/>-->
+        <!--<property name="maxPoolSize" value="5"/>-->
+        <!--<property name="waitForTasksToCompleteOnShutdown" value="true"/>-->
+    <!--</bean>-->
 
     <mongo:mongo id="mongo" host="${mongodb.host}" port="${mongodb.port}"/>
 
