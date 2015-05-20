@@ -19,8 +19,7 @@ public final class ReadResult extends UntypedActor{
         if (message instanceof ReadEventCompleted) {
             final ReadEventCompleted completed = (ReadEventCompleted) message;
             final Event event = completed.event();
-            log.info("````````````````event: {}", event);
-            getSender().tell(event, getSelf());
+            log.info("event: {}", event);
         } else if (message instanceof Status.Failure) {
             final Status.Failure failure = ((Status.Failure) message);
             final EsException exception = (EsException) failure.cause();

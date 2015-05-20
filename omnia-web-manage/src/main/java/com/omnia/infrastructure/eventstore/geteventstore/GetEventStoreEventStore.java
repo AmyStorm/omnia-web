@@ -6,6 +6,7 @@ import akka.actor.Props;
 import com.omnia.common.util.JsonUtil;
 import com.omnia.infrastructure.eventstore.geteventstore.actor.ReadResult;
 import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteResult;
+import com.omnia.module.query.user.repository.actor.WriteQueryRepository;
 import eventstore.EventData;
 import eventstore.ReadStreamEventsCompleted;
 import eventstore.Settings;
@@ -51,10 +52,8 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
     private final Serializer eventSerializer;
     private final String streamPrefix;
     private ActorRef connectionActor;
-    private final ActorRef readResult;
-    private final ActorRef writeResult;
     private final EsConnection connection;
-
+    private final ActorRef writeQueryRepository;
 
     private final String domainEventsPrefix;
     private final String snapshotEventsPrefix;
@@ -78,9 +77,9 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
                 .build();
         this.connectionActor = system.actorOf(ConnectionActor.getProps(settings));
         this.connection = EsConnectionFactory.create(system);
-        this.readResult = system.actorOf(Props.create(ReadResult.class));
-        this.writeResult = system.actorOf(Props.create(WriteResult.class));
-
+//        this.readResult = system.actorOf(Props.create(ReadResult.class), "readResult");
+//        this.writeResult = system.actorOf(Props.create(WriteResult.class), "writeResult");
+        this.writeQueryRepository = system.actorOf(Props.create(WriteQueryRepository.class), "WriteQueryRepository");
         this.domainEventsPrefix = domainEventsPrefix;
         this.snapshotEventsPrefix = snapshotEventsPrefix;
         this.separator = separator;
@@ -88,8 +87,8 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
 
     @Override
     public void appendEvents(String type, DomainEventStream events) {
-
-        WriteEventsBuilder builder = new WriteEventsBuilder(streamPrefix + DEFAULT_SEPARATOR + events.peek().getAggregateIdentifier());
+        String identifier = streamPrefix + DEFAULT_SEPARATOR + events.peek().getAggregateIdentifier();
+        WriteEventsBuilder builder = new WriteEventsBuilder(identifier);
         while (events.hasNext()) {
             DomainEventMessage message = events.next();
             GetEventStoreEventEntry entry = new GetEventStoreEventEntry(type, message, this.eventSerializer);
@@ -102,6 +101,10 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
 //            builder = builder.expectNoStream();
 //        }
         builder = builder.expectNoStream();
+
+
+        ActorRef writeResult = system.actorOf(WriteResult.mkProps(writeQueryRepository, identifier));
+
         connectionActor.tell(builder.build(), writeResult);
     }
 

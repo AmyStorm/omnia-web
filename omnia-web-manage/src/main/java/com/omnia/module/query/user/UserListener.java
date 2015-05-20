@@ -1,20 +1,16 @@
 package com.omnia.module.query.user;
 
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import akka.actor.*;
+import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteCallback;
+import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteResult;
 import com.omnia.module.command.user.domain.User;
-import com.omnia.module.command.user.domain.event.LoginSuccessEvent;
 import com.omnia.module.command.user.domain.event.UserCreateEvent;
-import com.omnia.module.query.user.repository.impl.UserQueryRepositoryImpl;
-import com.thoughtworks.xstream.XStream;
+import com.omnia.module.query.user.repository.actor.WriteQueryRepository;
 import org.axonframework.eventhandling.annotation.EventHandler;
-import org.axonframework.eventstore.mongo.MongoTemplate;
 import org.axonframework.repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * Created by khaerothe on 2015/5/15.
@@ -22,17 +18,21 @@ import java.util.Map;
 @Component
 public class UserListener {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+//    @Autowired
+//    private MongoTemplate mongoTemplate;
 
     @Autowired
     @Qualifier("userRepository")
     private Repository<User> repository;
 
+    @Autowired
+    private ActorSystem system;
     @EventHandler
     private void handlerUserCreated(UserCreateEvent event){
-        User user = repository.load(event.getIdentifier());
-        UserQueryRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
+//        User user = repository.load(event.getIdentifier());
+//        UserQueryRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
+
+//        writeQueryRepository.tell(new WriteCallback(), writeResult);
     }
 
     public void handleUserTracing(){
