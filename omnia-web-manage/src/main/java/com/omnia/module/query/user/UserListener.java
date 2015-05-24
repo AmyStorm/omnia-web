@@ -6,6 +6,7 @@ import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteResult;
 import com.omnia.module.command.user.domain.User;
 import com.omnia.module.command.user.domain.event.UserCreateEvent;
 import com.omnia.module.query.user.repository.actor.WriteQueryRepository;
+import com.omnia.module.query.user.repository.impl.UserQueryRepositoryImpl;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.axonframework.repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,7 @@ package com.omnia.infrastructure.es.impl;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omnia.infrastructure.es.EventStore;
 import com.omnia.infrastructure.es.dataformat.EventStream;
 import com.omnia.infrastructure.event.Event;
@@ -134,10 +135,15 @@ public class EventStoreImpl implements EventStore {
 
 
     private EventData toEventData(Event event) {
-        return new EventDataBuilder(event.getClass().getName())
-                .eventId(UUID.randomUUID())
-                .jsonData(JsonUtil.parseJsonString(event))
-                .build();
+        try {
+            return new EventDataBuilder(event.getClass().getName())
+                    .eventId(UUID.randomUUID())
+                    .jsonData(JsonUtil.parseJsonString(event))
+                    .build();
+        } catch (JsonProcessingException e) {
+            LOG.warn("Error when handling toEventData", e);
+            return null;
+        }
     }
 
     private Event parse(eventstore.Event event)

@@ -26,7 +26,7 @@ public class WriteQueryRepository extends UntypedActor {
             .build();
     private final ActorRef connector = getContext().actorOf(ConnectionActor.getProps(settings));
 
-    private final ActorRef readResult = getContext().actorOf(Props.create(ReadResult.class), "readResult");
+    private final ActorRef readResult = getContext().actorOf(Props.create(ReadResult.class));
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof WriteCallback) {

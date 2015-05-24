@@ -11,13 +11,17 @@ import java.util.Date;
 public final class UserCreateEvent implements Event {
 
     @TargetAggregateIdentifier
-    private final String identifier;
+    private String identifier;
 
-    private final String userName;
+    private String userName;
 
-    private final String password;
+    private String password;
 
-    private final Date createTime;
+    private Date createTime;
+
+    private UserCreateEvent(){
+
+    }
 
     public UserCreateEvent(String identifier, String userName, String password){
         this.identifier = identifier;

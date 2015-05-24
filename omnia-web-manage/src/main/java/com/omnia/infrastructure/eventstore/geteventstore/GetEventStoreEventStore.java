@@ -3,6 +3,7 @@ package com.omnia.infrastructure.eventstore.geteventstore;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omnia.common.util.JsonUtil;
 import com.omnia.infrastructure.eventstore.geteventstore.actor.ReadResult;
 import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteResult;
@@ -142,10 +143,15 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
     }
 
     private EventData toEventData(GetEventStoreEventEntry event) {
-        return new EventDataBuilder(event.getPayload().getType().getName())
-                .eventId(UUID.randomUUID())
-                .jsonData(JsonUtil.parseJsonString(event))
-                .build();
+        try {
+            return new EventDataBuilder(event.getPayload().getType().getName())
+                    .eventId(UUID.randomUUID())
+                    .jsonData(JsonUtil.parseJsonString(event))
+                    .build();
+        } catch (JsonProcessingException e) {
+            LOG.error("events toEventData error.", e);
+            return null;
+        }
     }
 
 }

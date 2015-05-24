@@ -60,7 +60,7 @@ public class GetEventStoreEventStream implements EventStream<Long> {
             LOG.error("init GetEventStoreEventStream error.", e);
         }
         this.iterator = domainEventMessages.iterator();
-        this.next = null;
+        this.next = domainEventMessages.isEmpty() ? null : domainEventMessages.get(0);
     }
 
     @Override

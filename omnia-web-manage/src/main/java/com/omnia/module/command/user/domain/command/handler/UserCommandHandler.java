@@ -40,10 +40,11 @@ public class UserCommandHandler {
 
     @CommandHandler
     public LoginSession authenticationUser(LoginCommand loginCommand){
+        User userreal = repository.load("56ef6121-90c4-45f1-ad82-c59d8f8d30bd");
         User user = userQueryRepository.getUserByName(loginCommand.getUsername());
 //        User user = repository.load(new UserIdentifier(loginCommand.getUsername()));
-        if(user != null && user.authentication(loginCommand.getPassword())){
-            return new LoginSession(user.getIdentifier(), user.getUserName());
+        if(userreal != null && userreal.authentication(loginCommand.getPassword())){
+            return new LoginSession(userreal.getIdentifier(), userreal.getUserName());
         }else{
             return null;
         }
