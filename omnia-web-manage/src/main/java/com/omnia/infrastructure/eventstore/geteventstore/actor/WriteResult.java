@@ -16,8 +16,6 @@ public final class WriteResult extends UntypedActor {
     private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     private ActorRef callbackActor;
     private Object identifier;
-//    private ActorRef callbackActor = getContext().actorOf(Props.create(WriteQueryRepository.class), "WriteQueryRepository");
-
     /**
      * default
      */
@@ -48,6 +46,6 @@ public final class WriteResult extends UntypedActor {
         } else {
             unhandled(message);
         }
-        context().system().shutdown();
+        //context().system().shutdown();
     }
 }

@@ -140,7 +140,7 @@ public class GetEventStoreEventEntry implements SerializedDomainEventData {
 
     public List<DomainEventMessage> getDomainEvents(Object aggregateIdentifier,
                                                     UpcasterChain upcasterChain, boolean skipUnknownTypes) {
-        return upcastAndDeserialize(this, aggregateIdentifier, serializer,
+        return getDomainEvents(aggregateIdentifier, this.serializer,
                 upcasterChain, skipUnknownTypes);
     }
 

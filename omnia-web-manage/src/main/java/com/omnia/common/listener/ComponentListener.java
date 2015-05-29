@@ -1,9 +1,8 @@
 package com.omnia.common.listener;
 
 import akka.actor.ActorSystem;
-import com.omnia.module.command.user.domain.command.CreateUserCommand;
-import com.omnia.module.query.user.UserListener;
-import com.omnia.module.query.user.repository.UserQueryRepository;
+import com.omnia.module.user.command.command.CreateUserCommand;
+import com.omnia.module.user.query.UserListener;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;
 import org.slf4j.Logger;
@@ -47,8 +46,8 @@ public class ComponentListener extends ContextLoaderListener {
 
 //        User user = userRepository.getUserById("bcf5e485-a81f-4b4b-ae12-3fd7c7c7ef73");
 //        UserQueryRepository.inMemoryUser.put(user.getIdentifier(), user);
-//        CreateUserCommand command = new CreateUserCommand("lisi", "lisi");
-//        commandBus.dispatch(new GenericCommandMessage<>(command));
+        CreateUserCommand command = new CreateUserCommand("zhangsan", "zhangsan");
+        commandBus.dispatch(new GenericCommandMessage<>(command));
         userListener.handleUserTracing();
     }
 

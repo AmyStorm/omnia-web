@@ -88,79 +88,74 @@
           <!--p:dataSource-ref="dataSource" />-->
 
 
-    <bean id="getEventStoreEventStore" class="com.omnia.infrastructure.eventstore.geteventstore.GetEventStoreEventStore">
-        <constructor-arg  value="user" />
-        <constructor-arg  ref="actorSystem" />
+    <!--<bean id="getEventStoreEventStore" class="com.omnia.infrastructure.eventstore.geteventstore.GetEventStoreEventStore">-->
+        <!--<constructor-arg  value="user" />-->
+        <!--<constructor-arg  ref="actorSystem" />-->
+    <!--</bean>-->
+
+    <bean id="eventStore" class="org.axonframework.eventstore.mongo.MongoEventStore">
+        <constructor-arg ref="mongoTemplate"/>
     </bean>
 
-    <!--<bean id="eventStore" class="org.axonframework.eventstore.mongo.MongoEventStore">-->
-        <!--<constructor-arg ref="mongoTemplate"/>-->
-    <!--</bean>-->
+    <bean id="sagaRepository" class="org.axonframework.saga.repository.mongo.MongoSagaRepository">
+        <constructor-arg ref="mongoSagaTemplate"/>
+        <property name="resourceInjector">
+            <bean class="org.axonframework.saga.spring.SpringResourceInjector"/>
+        </property>
+    </bean>
 
-    <!--<bean id="sagaRepository" class="org.axonframework.saga.repository.mongo.MongoSagaRepository">-->
-        <!--<constructor-arg ref="mongoSagaTemplate"/>-->
-        <!--<property name="resourceInjector">-->
-            <!--<bean class="org.axonframework.saga.spring.SpringResourceInjector"/>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="mongoSpringTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongo" ref="mongo"/>
+        <constructor-arg name="databaseName" value="omnia-web"/>
+    </bean>
 
-    <!--<bean id="mongoSpringTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">-->
-        <!--<constructor-arg name="mongo" ref="mongo"/>-->
-        <!--<constructor-arg name="databaseName" value="omnia-web"/>-->
-    <!--</bean>-->
+    <bean id="mongoTemplate" class="org.axonframework.eventstore.mongo.DefaultMongoTemplate">
+        <constructor-arg index="0" ref="mongo"/>
+        <constructor-arg index="1" value="omnia-web"/>
+        <constructor-arg index="2" value="domainevents"/>
+        <constructor-arg index="3" value="snapshotevents"/>
+        <constructor-arg index="4">
+            <null/>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <null/>
+        </constructor-arg>
+    </bean>
 
-    <!--<bean id="mongoTemplate" class="org.axonframework.eventstore.mongo.DefaultMongoTemplate">-->
-        <!--<constructor-arg index="0" ref="mongo"/>-->
-        <!--<constructor-arg index="1" value="omnia-web"/>-->
-        <!--<constructor-arg index="2" value="domainevents"/>-->
-        <!--<constructor-arg index="3" value="snapshotevents"/>-->
-        <!--<constructor-arg index="4">-->
-            <!--<null/>-->
-        <!--</constructor-arg>-->
-        <!--<constructor-arg index="5">-->
-            <!--<null/>-->
-        <!--</constructor-arg>-->
-    <!--</bean>-->
+    <bean id="mongoSagaTemplate" class="org.axonframework.saga.repository.mongo.DefaultMongoTemplate">
+        <constructor-arg index="0" ref="mongo"/>
+        <constructor-arg index="1" value="omnia-web"/>
+        <constructor-arg index="2" value="snapshotevents"/>
+        <constructor-arg index="3">
+            <null/>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <null/>
+        </constructor-arg>
+    </bean>
 
-    <!--<bean id="mongoSagaTemplate" class="org.axonframework.saga.repository.mongo.DefaultMongoTemplate">-->
-        <!--<constructor-arg index="0" ref="mongo"/>-->
-        <!--<constructor-arg index="1" value="omnia-web"/>-->
-        <!--<constructor-arg index="2" value="snapshotevents"/>-->
-        <!--<constructor-arg index="3">-->
-            <!--<null/>-->
-        <!--</constructor-arg>-->
-        <!--<constructor-arg index="4">-->
-            <!--<null/>-->
-        <!--</constructor-arg>-->
-    <!--</bean>-->
 
-    <!--<bean id="authenticationHandler" class="com.omnia.user.command.handler.AuthenticationHandler">-->
-        <!--<property name="repository" ref="userESRepository" />-->
-        <!--<property name="userRepository" ref="userRepository" />-->
-    <!--</bean>-->
-
-    <!--<bean id="userRepository" class="com.omnia.user.repository.impl.UserQueryRepository" />-->
     <axon:event-sourcing-repository id="userRepository"
-                                    aggregate-type="com.omnia.module.command.user.domain.User"
+                                    aggregate-type="com.omnia.module.user.command.domain.User"
                                     event-bus="eventBus"
-                                    event-store="getEventStoreEventStore" >
-        <!--<axon:snapshotter-trigger event-count-threshold="5" snapshotter-ref="snapshotter"/>-->
+                                    event-store="eventStore" >
+        <axon:snapshotter-trigger event-count-threshold="5" snapshotter-ref="snapshotter"/>
     </axon:event-sourcing-repository>
 
-    <!--<axon:aggregate-command-handler id="userCommandHandler" aggregate-type="com.omnia.user.domain.User" repository="userRepository" command-bus="commandBus" />-->
+    <axon:aggregate-command-handler id="userCommandHandler" aggregate-type="com.omnia.module.user.command.domain.User" repository="userRepository" command-bus="commandBus" />
 
-    <!--<bean id="snapshotter" class="org.axonframework.eventsourcing.SpringAggregateSnapshotter">-->
-        <!--<property name="eventStore" ref="eventStore"/>-->
-        <!--<property name="executor" ref="taskExecutor"/>-->
-    <!--</bean>-->
+    <bean id="snapshotter" class="org.axonframework.eventsourcing.SpringAggregateSnapshotter">
+        <property name="eventStore" ref="eventStore"/>
+        <property name="executor" ref="taskExecutor"/>
+    </bean>
 
-    <!--<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">-->
-        <!--<property name="corePoolSize" value="2"/>-->
-        <!--<property name="maxPoolSize" value="5"/>-->
-        <!--<property name="waitForTasksToCompleteOnShutdown" value="true"/>-->
-    <!--</bean>-->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="2"/>
+        <property name="maxPoolSize" value="5"/>
+        <property name="waitForTasksToCompleteOnShutdown" value="true"/>
+    </bean>
 
-    <!--<mongo:mongo id="mongo" host="${mongodb.host}" port="${mongodb.port}"/>-->
+    <mongo:mongo id="mongo" host="${mongodb.host}" port="${mongodb.port}"/>
 
     <axon:annotation-config />
 </beans>

@@ -1,9 +1,9 @@
 package com.omnia.infrastructure.eventstore.geteventstore;
 
-import com.omnia.infrastructure.es.dataformat.EventStream;
 import eventstore.Event;
 import eventstore.ReadStreamEventsCompleted;
 import org.axonframework.domain.DomainEventMessage;
+import org.axonframework.domain.DomainEventStream;
 import org.axonframework.upcasting.SimpleUpcasterChain;
 import org.axonframework.upcasting.UpcasterChain;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by khaerothe on 2015/4/28.
  */
-public class GetEventStoreEventStream implements EventStream<Long> {
+public class GetEventStoreEventStream implements DomainEventStream {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetEventStoreEventStream.class);
     private static final Charset UTF8 = Charset.forName("UTF-8");
@@ -61,11 +61,6 @@ public class GetEventStoreEventStream implements EventStream<Long> {
         }
         this.iterator = domainEventMessages.iterator();
         this.next = domainEventMessages.isEmpty() ? null : domainEventMessages.get(0);
-    }
-
-    @Override
-    public Long version() {
-        return version;
     }
 
     @Override

@@ -17,6 +17,7 @@
                         $("#user_table").dataTable({
                             serverSide: true,
                             ajax: {
+                                async : false,
                                 url: 'user/list',
                                 type: 'POST'
                             },

@@ -5,12 +5,13 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omnia.common.util.JsonUtil;
-import com.omnia.infrastructure.eventstore.geteventstore.actor.ReadResult;
 import com.omnia.infrastructure.eventstore.geteventstore.actor.WriteResult;
-import com.omnia.module.query.user.repository.actor.WriteQueryRepository;
+import com.omnia.module.user.query.repository.actor.WriteQueryRepository;
 import eventstore.EventData;
+import eventstore.IndexedEvent;
 import eventstore.ReadStreamEventsCompleted;
 import eventstore.Settings;
+import eventstore.SubscriptionObserver;
 import eventstore.j.EsConnection;
 import eventstore.j.EsConnectionFactory;
 import eventstore.j.EventDataBuilder;
@@ -27,9 +28,11 @@ import org.axonframework.upcasting.UpcasterAware;
 import org.axonframework.upcasting.UpcasterChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rx.Observable;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 
+import java.io.Closeable;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +57,6 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
     private final String streamPrefix;
     private ActorRef connectionActor;
     private final EsConnection connection;
-    private final ActorRef writeQueryRepository;
 
     private final String domainEventsPrefix;
     private final String snapshotEventsPrefix;
@@ -80,7 +82,7 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
         this.connection = EsConnectionFactory.create(system);
 //        this.readResult = system.actorOf(Props.create(ReadResult.class), "readResult");
 //        this.writeResult = system.actorOf(Props.create(WriteResult.class), "writeResult");
-        this.writeQueryRepository = system.actorOf(Props.create(WriteQueryRepository.class), "WriteQueryRepository");
+//        this.writeQueryRepository = system.actorOf(Props.create(WriteQueryRepository.class), "WriteQueryRepository");
         this.domainEventsPrefix = domainEventsPrefix;
         this.snapshotEventsPrefix = snapshotEventsPrefix;
         this.separator = separator;
@@ -103,7 +105,7 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
 //        }
         builder = builder.expectNoStream();
 
-
+        ActorRef writeQueryRepository = system.actorOf(Props.create(WriteQueryRepository.class));
         ActorRef writeResult = system.actorOf(WriteResult.mkProps(writeQueryRepository, identifier));
 
         connectionActor.tell(builder.build(), writeResult);
@@ -140,6 +142,35 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
     public void setUpcasterChain(UpcasterChain upcasterChain) {
         LOG.debug("setUpcasterChain invoke...............................");
         this.upcasterChain = upcasterChain;
+    }
+
+    public Observable<GetEventStoreEventEntry> all() {
+        return Observable.create(subscriber -> connection.subscribeToAllFrom(new SubscriptionObserver<IndexedEvent>() {
+            @Override
+            public void onLiveProcessingStart(Closeable arg0) {
+            }
+
+            @Override
+            public void onEvent(IndexedEvent event, Closeable arg1) {
+                if (!event.event().streamId().isSystem() && event.event().streamId().streamId().startsWith(streamPrefix)) {
+                    try {
+                        subscriber.onNext(new GetEventStoreEventEntry(event.event()));
+                    } catch (Exception e) {
+                        LOG.warn("Error when handling event", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                subscriber.onError(e);
+            }
+
+            @Override
+            public void onClose() {
+                subscriber.onCompleted();
+            }
+        }, null, true, null));
     }
 
     private EventData toEventData(GetEventStoreEventEntry event) {
