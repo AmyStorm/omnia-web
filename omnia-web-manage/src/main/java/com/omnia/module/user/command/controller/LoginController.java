@@ -1,7 +1,7 @@
 package com.omnia.module.user.command.controller;
 
-import com.omnia.module.user.command.command.LoginCommand;
-import com.omnia.module.user.command.command.LogoutCommand;
+import com.omnia.module.user.command.LoginCommand;
+import com.omnia.module.user.command.LogoutCommand;
 import com.omnia.module.user.command.vo.LoginSession;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;

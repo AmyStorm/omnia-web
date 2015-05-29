@@ -1,4 +1,4 @@
-package com.omnia.module.user.command.command;
+package com.omnia.module.user.command;
 
 
 /**

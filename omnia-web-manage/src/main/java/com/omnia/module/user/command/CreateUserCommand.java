@@ -1,16 +1,15 @@
-package com.omnia.module.user.command.command;
-
+package com.omnia.module.user.command;
 
 /**
- * Created by Administrator on 2015/5/4.
+ * Created by Administrator on 2015/5/13.
  */
-public final class LoginCommand {
+public class CreateUserCommand {
 
     private String username;
 
     private String password;
 
-    public LoginCommand(String username, String password) {
+    public CreateUserCommand(String username, String password){
         this.username = username;
         this.password = password;
     }

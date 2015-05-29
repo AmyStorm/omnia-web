@@ -1,7 +1,7 @@
 package com.omnia.common.listener;
 
 import akka.actor.ActorSystem;
-import com.omnia.module.user.command.command.CreateUserCommand;
+import com.omnia.module.user.command.CreateUserCommand;
 import com.omnia.module.user.query.UserListener;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.GenericCommandMessage;

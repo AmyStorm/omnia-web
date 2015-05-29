@@ -1,8 +1,8 @@
-package com.omnia.module.user.command.command.handler;
+package com.omnia.module.user.command.handler;
 
-import com.omnia.module.user.command.command.CreateUserCommand;
-import com.omnia.module.user.command.command.LoginCommand;
-import com.omnia.module.user.command.command.LogoutCommand;
+import com.omnia.module.user.command.CreateUserCommand;
+import com.omnia.module.user.command.LoginCommand;
+import com.omnia.module.user.command.LogoutCommand;
 import com.omnia.module.user.command.domain.User;
 import com.omnia.module.user.command.vo.LoginSession;
 import com.omnia.module.user.query.repository.UserQueryRepository;
@@ -32,16 +32,12 @@ public class UserCommandHandler {
     public void createUser(CreateUserCommand command){
         final String id = UUID.randomUUID().toString();
         final String password = BCrypt.hashpw(command.getPassword(), BCrypt.gensalt());
-        User user = new User(id, command.getUsername() , password);
-        repository.add(user);
-//        UserQueryRepositoryImpl.inMemoryUser.put(id, user);
+        new User(id, command.getUsername() , password);
     }
 
     @CommandHandler
     public LoginSession authenticationUser(LoginCommand loginCommand){
-//        User userreal = repository.load("7a861c9a-4c05-4cd8-bdd7-f7befb4d3054");
         User user = userQueryRepository.getUserByName(loginCommand.getUsername());
-//        User user = repository.load(new UserIdentifier(loginCommand.getUsername()));
         if(user != null && user.authentication(loginCommand.getPassword())){
             return new LoginSession(user.getIdentifier(), user.getUserName());
         }else{
