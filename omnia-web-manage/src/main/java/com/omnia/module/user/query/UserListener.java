@@ -1,6 +1,8 @@
 package com.omnia.module.user.query;
 
+import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.Props;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.omnia.module.user.command.domain.User;
@@ -8,6 +10,7 @@ import com.omnia.module.user.command.domain.event.LoginSuccessEvent;
 import com.omnia.module.user.command.domain.event.UserCreateEvent;
 import com.omnia.module.user.query.repository.impl.UserQueryRepositoryImpl;
 import com.thoughtworks.xstream.XStream;
+import eventstore.examples.CountAll;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.axonframework.eventstore.mongo.MongoTemplate;
 import org.axonframework.repository.Repository;
@@ -35,6 +38,10 @@ public class UserListener {
 
     @Autowired
     private ActorSystem system;
+
+    public UserListener(){
+
+    }
     @EventHandler
     private void handlerUserCreated(UserCreateEvent event){
 //        User user = repository.load(event.getIdentifier());
