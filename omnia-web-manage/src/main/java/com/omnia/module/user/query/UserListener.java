@@ -26,8 +26,8 @@ import java.util.Map;
 public class UserListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserListener.class);
-    @Autowired
-    private MongoTemplate mongoTemplate;
+//    @Autowired
+//    private MongoTemplate mongoTemplate;
 
     @Autowired
     @Qualifier("userRepository")
@@ -37,40 +37,40 @@ public class UserListener {
     private ActorSystem system;
     @EventHandler
     private void handlerUserCreated(UserCreateEvent event){
-        User user = repository.load(event.getIdentifier());
-        UserQueryRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
+//        User user = repository.load(event.getIdentifier());
+//        UserQueryRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
 
     }
 
     public void handleUserTracing(){
-
-        DBCursor cursor = mongoTemplate.domainEventCollection().find();
-        while(cursor.hasNext()){
-            DBObject object = cursor.next();
-            Map dbMap = object.toMap();
-//            dbMap.forEach((k,v) -> System.out.println(k.toString() + v.toString()));
-
-            String payload = dbMap.get("serializedPayload").toString();
-            String identifier = dbMap.get("aggregateIdentifier").toString();
-            XStream xstream = new XStream();
-            Object event = xstream.fromXML(payload);
-            User user = repository.load(identifier);
-            if(UserQueryRepositoryImpl.inMemoryUser.get(identifier) != null){
-                UserQueryRepositoryImpl.inMemoryUser.get(identifier).applyEvent(event);
-            }else{
-                user.applyEvent(event);
-                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), user);
-            }
-
-//            if(event instanceof UserCreateEvent){
-//                UserCreateEvent e  = (UserCreateEvent) event;
-//                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), new User(dbMap.get("aggregateIdentifier").toString(), e.getUserName() ,e.getPassword()));
-//            }else if(event instanceof LoginSuccessEvent){
-//                LoginSuccessEvent e  = (LoginSuccessEvent) event;
-////                UserQueryRepositoryImpl.inMemoryUser.get(e.getIdentifier()).;
+//
+//        DBCursor cursor = mongoTemplate.domainEventCollection().find();
+//        while(cursor.hasNext()){
+//            DBObject object = cursor.next();
+//            Map dbMap = object.toMap();
+////            dbMap.forEach((k,v) -> System.out.println(k.toString() + v.toString()));
+//
+//            String payload = dbMap.get("serializedPayload").toString();
+//            String identifier = dbMap.get("aggregateIdentifier").toString();
+//            XStream xstream = new XStream();
+//            Object event = xstream.fromXML(payload);
+//            User user = repository.load(identifier);
+//            if(UserQueryRepositoryImpl.inMemoryUser.get(identifier) != null){
+//                UserQueryRepositoryImpl.inMemoryUser.get(identifier).applyEvent(event);
+//            }else{
+//                user.applyEvent(event);
+//                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), user);
 //            }
-
-            System.out.println(UserQueryRepositoryImpl.inMemoryUser);
-        }
+//
+////            if(event instanceof UserCreateEvent){
+////                UserCreateEvent e  = (UserCreateEvent) event;
+////                UserQueryRepositoryImpl.inMemoryUser.put(dbMap.get("aggregateIdentifier").toString(), new User(dbMap.get("aggregateIdentifier").toString(), e.getUserName() ,e.getPassword()));
+////            }else if(event instanceof LoginSuccessEvent){
+////                LoginSuccessEvent e  = (LoginSuccessEvent) event;
+//////                UserQueryRepositoryImpl.inMemoryUser.get(e.getIdentifier()).;
+////            }
+//
+//            System.out.println(UserQueryRepositoryImpl.inMemoryUser);
+//        }
     }
 }

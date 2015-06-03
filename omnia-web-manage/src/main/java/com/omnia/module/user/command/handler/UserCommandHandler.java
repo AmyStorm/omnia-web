@@ -32,7 +32,8 @@ public class UserCommandHandler {
     public void createUser(CreateUserCommand command){
         final String id = UUID.randomUUID().toString();
         final String password = BCrypt.hashpw(command.getPassword(), BCrypt.gensalt());
-        new User(id, command.getUsername() , password);
+        User user = new User(id, command.getUsername() , password);
+        repository.add(user);
     }
 
     @CommandHandler

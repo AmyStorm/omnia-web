@@ -1,4 +1,4 @@
-package com.omnia.module.user.command.controller;
+package com.omnia.module.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omnia.common.util.JsonUtil;

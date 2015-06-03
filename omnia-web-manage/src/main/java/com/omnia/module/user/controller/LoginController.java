@@ -1,4 +1,4 @@
-package com.omnia.module.user.command.controller;
+package com.omnia.module.user.controller;
 
 import com.omnia.module.user.command.LoginCommand;
 import com.omnia.module.user.command.LogoutCommand;
