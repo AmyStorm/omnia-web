@@ -96,7 +96,7 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
             DomainEventMessage message = events.next();
             GetEventStoreEventEntry entry = new GetEventStoreEventEntry(type, message, this.eventSerializer);
             builder = builder.addEvent(toEventData(entry));
-            LOG.debug("events data append success: " + message.toString());
+            LOG.info("events data append success: " + message.toString());
         }
 //        if (version >= 0) {
 //            builder = builder.expectVersion((int) version);

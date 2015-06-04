@@ -46,7 +46,7 @@ public class ComponentListener extends ContextLoaderListener {
 
 //        User user = userRepository.getUserById("bcf5e485-a81f-4b4b-ae12-3fd7c7c7ef73");
 //        UserQueryRepository.inMemoryUser.put(user.getIdentifier(), user);
-        CreateUserCommand command = new CreateUserCommand("wangwu", "wangwu");
+        CreateUserCommand command = new CreateUserCommand("lisi", "lisi");
         commandBus.dispatch(new GenericCommandMessage<>(command));
         userListener.handleUserTracing();
     }
