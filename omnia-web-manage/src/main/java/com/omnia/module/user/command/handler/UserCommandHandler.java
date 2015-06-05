@@ -47,7 +47,7 @@ public class UserCommandHandler {
     }
     @CommandHandler
     public void logout(LogoutCommand logoutCommand){
-        User user = repository.load(logoutCommand.getIdentifier());
+        User user = userQueryRepository.getUserById(logoutCommand.getIdentifier());
         user.logout();
     }
 }

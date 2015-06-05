@@ -9,4 +9,5 @@ import com.omnia.module.user.command.domain.User;
 public interface UserQueryRepository {
     User getUserByName(String name);
 
+    User getUserById(String identifier);
 }

@@ -147,6 +147,10 @@
         <!--<axon:snapshotter-trigger event-count-threshold="5" snapshotter-ref="snapshotter"/>-->
     </axon:event-sourcing-repository>
 
+    <!--<bean class="org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor">-->
+        <!--<property name="commandBus" ref="commandBus"/>-->
+    <!--</bean>-->
+
     <!--<axon:aggregate-command-handler id="userCommandHandler" aggregate-type="com.omnia.module.user.command.domain.User" repository="userRepository" command-bus="commandBus" />-->
 
     <!--<bean id="snapshotter" class="org.axonframework.eventsourcing.SpringAggregateSnapshotter">-->

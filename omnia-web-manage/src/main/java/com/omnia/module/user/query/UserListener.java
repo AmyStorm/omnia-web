@@ -1,26 +1,13 @@
 package com.omnia.module.user.query;
 
-import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.Props;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.omnia.module.user.command.domain.User;
-import com.omnia.module.user.command.domain.event.LoginSuccessEvent;
-import com.omnia.module.user.command.domain.event.UserCreateEvent;
-import com.omnia.module.user.query.repository.impl.UserQueryRepositoryImpl;
-import com.thoughtworks.xstream.XStream;
-import eventstore.examples.CountAll;
-import org.axonframework.eventhandling.annotation.EventHandler;
-import org.axonframework.eventstore.mongo.MongoTemplate;
 import org.axonframework.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * Created by khaerothe on 2015/5/15.
@@ -42,12 +29,12 @@ public class UserListener {
     public UserListener(){
 
     }
-    @EventHandler
-    private void handlerUserCreated(UserCreateEvent event){
-//        User user = repository.load(event.getIdentifier());
-//        UserQueryRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
-
-    }
+//    @EventHandler
+//    private void handlerUserCreated(UserCreateEvent event){
+////        User user = repository.load(event.getIdentifier());
+////        UserQueryRepositoryImpl.inMemoryUser.put(user.getIdentifier(), user);
+//
+//    }
 
     public void handleUserTracing(){
 //

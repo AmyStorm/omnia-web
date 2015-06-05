@@ -27,6 +27,17 @@ public class UserQueryRepositoryImpl implements UserQueryRepository {
         }
         return null;
     }
+
+    public User getUserById(String identifier){
+        for(Map.Entry<String, User> entry : inMemoryUser.entrySet()){
+            User user = entry.getValue();
+            if(user.getIdentifier().equals(identifier)){
+                return user;
+            }
+        }
+        return null;
+    }
+
 //    public Map<String, User> getAllUsers(){
 //        userRepository.
 //    }
