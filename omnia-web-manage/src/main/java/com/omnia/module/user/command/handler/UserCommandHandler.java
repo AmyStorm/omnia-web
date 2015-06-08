@@ -38,7 +38,9 @@ public class UserCommandHandler {
 
     @CommandHandler
     public LoginSession authenticationUser(LoginCommand loginCommand){
+
         User user = userQueryRepository.getUserByName(loginCommand.getUsername());
+        user = repository.load(user.getIdentifier());
         if(user != null && user.authentication(loginCommand.getPassword())){
             return new LoginSession(user.getIdentifier(), user.getUserName());
         }else{
@@ -47,7 +49,8 @@ public class UserCommandHandler {
     }
     @CommandHandler
     public void logout(LogoutCommand logoutCommand){
-        User user = userQueryRepository.getUserById(logoutCommand.getIdentifier());
+        User user = repository.load(logoutCommand.getIdentifier());
+//        User user = userQueryRepository.getUserById(logoutCommand.getIdentifier());
         user.logout();
     }
 }
