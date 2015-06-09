@@ -103,7 +103,7 @@ public class GetEventStoreEventStore implements SnapshotEventStore, UpcasterAwar
 //        } else {
 //            builder = builder.expectNoStream();
 //        }
-        builder = builder.expectNoStream();
+        builder = builder.expectAnyVersion();
 
         ActorRef writeQueryRepository = system.actorOf(Props.create(WriteQueryRepository.class));
         ActorRef writeResult = system.actorOf(WriteResult.mkProps(writeQueryRepository, identifier));

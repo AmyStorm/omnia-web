@@ -94,6 +94,7 @@ public class User extends AbstractAnnotatedAggregateRoot {
 
     @EventSourcingHandler
     private void handle(LoginSuccessEvent event){
+        this.identifier = event.getIdentifier();
         this.lastLogin = event.getLoginTime();
         this.isLogin = true;
     }
