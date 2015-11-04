@@ -38,7 +38,6 @@ public class UserCommandHandler {
 
     @CommandHandler
     public LoginSession authenticationUser(LoginCommand loginCommand){
-
         User user = userQueryRepository.getUserByName(loginCommand.getUsername());
         user = repository.load(user.getIdentifier());
         if(user != null && user.authentication(loginCommand.getPassword())){
